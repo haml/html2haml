@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Html2haml::VERSION
 
-  gem.add_dependency 'hpricot'
+  gem.add_dependency 'nokogiri'
   gem.add_dependency 'haml'
   gem.add_development_dependency 'erubis'
   gem.add_development_dependency 'ruby_parser'
