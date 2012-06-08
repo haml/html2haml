@@ -73,8 +73,8 @@ module Haml
       # @param src [String] The source buffer
       # @param code [String] The Ruby expression to add to the buffer
       def add_expr_literal(src, code)
-        src << '<haml:loud>' << h(code) << '</haml:loud>'
-        src << '<haml:block>' if block_opener?(code)
+        src << '<loud>' << h(code) << '</loud>'
+        src << '<block>' if block_opener?(code)
       end
 
       # `html2haml` doesn't support debugging expressions.
