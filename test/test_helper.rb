@@ -1,3 +1,4 @@
+require "rubygems"
 if ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start

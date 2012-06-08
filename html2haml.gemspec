@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'ruby_parser'
   gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'minitest'
 end
