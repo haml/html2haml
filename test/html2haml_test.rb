@@ -1,6 +1,6 @@
 require 'test_helper'
 require 'erb_tests'
-require 'haml/html'
+require 'html2haml/html'
 
 class Html2HamlTest < MiniTest::Unit::TestCase
   def test_empty_render_should_remain_empty
@@ -293,7 +293,7 @@ HTML
   end
 
   begin
-    require 'haml/html/erb'
+    require 'html2haml/html/erb'
     include ErbTests
   rescue LoadError => e
     puts "\n** Couldn't require #{e.message[/-- (.*)$/, 1]}, skipping some tests"

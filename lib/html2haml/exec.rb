@@ -240,7 +240,7 @@ END
       def process_result
         super
 
-        require 'haml/html'
+        require 'html2haml/html'
 
         input = @options[:input]
         output = @options[:output]
