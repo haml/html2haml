@@ -19,6 +19,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'haml'
   gem.add_development_dependency 'erubis'
   gem.add_development_dependency 'ruby_parser'
-  gem.add_development_dependency 'simple_cov'
+  gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'rake'
 end
