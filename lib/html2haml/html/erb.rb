@@ -130,7 +130,6 @@ module Haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def block_closer?(code)
-        return if code == "\n"
         valid_ruby?("begin\n" + code)
       end
 
@@ -141,7 +140,6 @@ module Haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def mid_block?(code)
-        return if code == "\n"
         return if valid_ruby?(code)
         valid_ruby?("if foo\n#{code}\nend") || # else, elsif
           valid_ruby?("begin\n#{code}\nend") || # rescue, ensure
