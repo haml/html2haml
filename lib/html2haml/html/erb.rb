@@ -59,9 +59,9 @@ module Haml
       # @param src [String] The source buffer
       # @param code [String] The Ruby statement to add to the buffer
       def add_stmt(src, code)
-        src << '</haml:block>' if block_closer?(code) || mid_block?(code)
+        src << '</haml:block>' if has_code?(code) && block_closer?(code) || mid_block?(code)
         src << '<haml:silent>' << h(code) << '</haml:silent>' unless code.strip == "end"
-        src << '<haml:block>' if block_opener?(code) || mid_block?(code)
+        src << '<haml:block>' if has_code?(code) && block_opener?(code) || mid_block?(code)
       end
 
       # Concatenates a Ruby expression that's printed to the document
@@ -101,6 +101,15 @@ module Haml
         RubyParser.new.parse(code)
       rescue Racc::ParseError
         false
+      end
+
+      # Returns whether the code has any content
+      # This is used to test whether lines have been removed by erubis, such as comments
+      #
+      # @param code [String] Ruby code to check
+      # @return [Boolean]
+      def has_code?(code)
+        code != "\n"
       end
 
       # Checks if a string of Ruby code opens a block.
