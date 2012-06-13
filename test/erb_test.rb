@@ -1,4 +1,6 @@
-module ErbTests
+require 'test_helper'
+
+class ErbTest < MiniTest::Unit::TestCase
   def test_erb
     assert_equal '- foo = bar', render_erb('<% foo = bar %>')
     assert_equal '- foo = bar', render_erb('<% foo = bar -%>')
@@ -437,4 +439,39 @@ HAML
 </table>
 ERB
   end
+
+  def test_commented_erb_should_not_cause_indentation
+    assert_equal(<<HAML.rstrip, render_erb(<<ERB))
+%title
+  html2haml and multiline titles
+= # stylesheet_link_tag :first
+= stylesheet_link_tag 'another file'
+HAML
+<title>
+  html2haml and multiline titles
+</title>
+<%=# stylesheet_link_tag :first %>
+<%#= stylesheet_link_tag :second %>
+<%# stylesheet_link_tag :third %>
+<%= stylesheet_link_tag 'another file' %>
+ERB
+  end
+
+  def test_should_wrap_in_silent
+    assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
+<haml:silent> some_variable_or_function \n</haml:silent>
+HTML
+<% some_variable_or_function %>
+ERB
+  end
+
+  #comment content is removed by erubis
+  def test_should_wrap_process_comments_as_empty_lines
+    assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
+<haml:silent>\n</haml:silent>
+HTML
+<%# some_variable_or_function %>
+ERB
+  end
+
 end
