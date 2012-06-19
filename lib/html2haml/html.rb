@@ -136,7 +136,11 @@ module Haml
           template = ERB.compile(template)
         end
 
-        method = @options[:xhtml] ? Nokogiri::XML.method(:fragment) : Nokogiri::HTML.method(:fragment)
+        if template =~ /^\s*<!DOCTYPE/
+          method = Nokogiri.method(:HTML)
+        else
+          method = Nokogiri::HTML.method(:fragment)
+        end
         @template = method.call(template)
       end
     end
@@ -370,7 +374,7 @@ module Haml
 
       def to_haml_filter(filter, tabs, options)
         content =
-          if children.first.is_a?(::Nokogiri::XML::CDATA)
+          if children.first.cdata?
             children.first.content
           else
             CGI.unescapeHTML(self.inner_text)
