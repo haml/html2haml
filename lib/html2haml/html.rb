@@ -47,7 +47,7 @@ module Nokogiri
         return text unless options[:erb]
         text = CGI.escapeHTML(uninterp(text))
         %w[<loud> </loud>].each {|str| text.gsub!(CGI.escapeHTML(str), str)}
-        ::Nokogiri::XML(text).children.inject("") do |str, elem|
+        ::Nokogiri::XML.fragment(text).children.inject("") do |str, elem|
           if elem.is_a?(::Nokogiri::XML::Text)
             str + CGI.unescapeHTML(elem.to_s)
           else # <loud> element
@@ -136,7 +136,7 @@ module Haml
           template = ERB.compile(template)
         end
 
-        method = @options[:xhtml] ? Nokogiri.method(:XML) : Nokogiri::HTML.method(:fragment)
+        method = @options[:xhtml] ? Nokogiri::XML.method(:fragment) : Nokogiri::HTML.method(:fragment)
         @template = method.call(template)
       end
     end
