@@ -1,6 +1,4 @@
 require 'test_helper'
-require 'erb_tests'
-require 'html2haml/html'
 
 class Html2HamlTest < MiniTest::Unit::TestCase
   def test_empty_render_should_remain_empty
@@ -292,13 +290,6 @@ HAML
 HTML
   end
 
-  begin
-    require 'html2haml/html/erb'
-    include ErbTests
-  rescue LoadError => e
-    puts "\n** Couldn't require #{e.message[/-- (.*)$/, 1]}, skipping some tests"
-  end
-
   # Encodings
 
   unless RUBY_VERSION < "1.9"
@@ -328,15 +319,5 @@ HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 HTML
-  end
-
-  protected
-
-  def render(text, options = {})
-    Haml::HTML.new(text, options).render.rstrip
-  end
-
-  def render_erb(text)
-    render(text, :erb => true)
   end
 end
