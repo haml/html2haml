@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Html2haml::VERSION
 
   gem.add_dependency 'hpricot'
-  gem.add_dependency 'haml'
+  gem.add_dependency 'haml', '>= 3.2.0.beta.1'
   gem.add_development_dependency 'erubis'
   gem.add_development_dependency 'ruby_parser'
   gem.add_development_dependency 'simplecov'
