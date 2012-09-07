@@ -17,8 +17,8 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'hpricot'
   gem.add_dependency 'haml', '>= 3.2.0.beta.1'
-  gem.add_development_dependency 'erubis'
-  gem.add_development_dependency 'ruby_parser'
+  gem.add_dependency 'erubis'
+  gem.add_dependency 'ruby_parser'
   gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'minitest'
