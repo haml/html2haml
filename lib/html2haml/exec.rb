@@ -224,6 +224,12 @@ END
           @module_opts[:html_style_attributes] = true
         end
 
+        if RUBY_VERSION >= "1.9"
+          opts.on('--ruby19-hashes', 'Force using Ruby 1.9 hash style attributes when possible.') do
+            @module_opts[:ruby19_hashes] = true
+          end
+        end
+
         unless RUBY_VERSION < "1.9"
           opts.on('-E ex[:in]', 'Specify the default external and internal character encodings.') do |encoding|
             external, internal = encoding.split(':')

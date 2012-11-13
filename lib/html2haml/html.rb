@@ -413,6 +413,8 @@ module Haml
         value = dynamic_attribute?(name, options) ? dynamic_attributes[name] : value.inspect
         if options[:html_style_attributes]
           "#{name}=#{value}"
+        elsif options[:ruby19_hashes] && !name.index(/\W/)
+            "#{name}: #{value}"
         else
           name = name.index(/\W/) ? name.inspect : ":#{name}"
           "#{name} => #{value}"
