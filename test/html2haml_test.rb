@@ -32,9 +32,9 @@ class Html2HamlTest < MiniTest::Unit::TestCase
   end
 
   def test_should_have_pretty_attributes
-    assert_equal('%input{:name => "login", :type => "text"}/',
+    assert_equal('%input{ :name => "login", :type => "text" }/',
       render('<input type="text" name="login" />'))
-    assert_equal('%meta{:content => "text/html", "http-equiv" => "Content-Type"}/',
+    assert_equal('%meta{ :content => "text/html", "http-equiv" => "Content-Type" }/',
       render('<meta http-equiv="Content-Type" content="text/html" />'))
   end
 
@@ -46,21 +46,21 @@ class Html2HamlTest < MiniTest::Unit::TestCase
   end
 
   def test_should_have_ruby19_hash_attributes
-    assert_equal('%input{name: "login", type: "text"}/',
+    assert_equal('%input{ name: "login", type: "text" }/',
       render('<input type="text" name="login" />', :ruby19_hashes => true))
-    assert_equal('%meta{content: "text/html", "http-equiv" => "Content-Type"}/',
+    assert_equal('%meta{ content: "text/html", "http-equiv" => "Content-Type" }/',
       render('<meta http-equiv="Content-Type" content="text/html" />', :ruby19_hashes => true))
   end
 
   def test_class_with_dot_and_hash
-    assert_equal('%div{:class => "foo.bar"}', render("<div class='foo.bar'></div>"))
-    assert_equal('%div{:class => "foo#bar"}', render("<div class='foo#bar'></div>"))
-    assert_equal('.foo.bar{:class => "foo#bar foo.bar"}', render("<div class='foo foo#bar bar foo.bar'></div>"))
+    assert_equal('%div{ :class => "foo.bar" }', render("<div class='foo.bar'></div>"))
+    assert_equal('%div{ :class => "foo#bar" }', render("<div class='foo#bar'></div>"))
+    assert_equal('.foo.bar{ :class => "foo#bar foo.bar" }', render("<div class='foo foo#bar bar foo.bar'></div>"))
   end
 
   def test_id_with_dot_and_hash
-    assert_equal('%div{:id => "foo.bar"}', render("<div id='foo.bar'></div>"))
-    assert_equal('%div{:id => "foo#bar"}', render("<div id='foo#bar'></div>"))
+    assert_equal('%div{ :id => "foo.bar" }', render("<div id='foo.bar'></div>"))
+    assert_equal('%div{ :id => "foo#bar" }', render("<div id='foo#bar'></div>"))
   end
 
   def test_interpolation
@@ -68,7 +68,7 @@ class Html2HamlTest < MiniTest::Unit::TestCase
   end
 
   def test_interpolation_in_attrs
-    assert_equal('%p{:foo => "\#{bar} baz"}', render('<p foo="#{bar} baz"></p>'))
+    assert_equal('%p{ :foo => "\#{bar} baz" }', render('<p foo="#{bar} baz"></p>'))
   end
 
   def test_cdata

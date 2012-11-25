@@ -404,7 +404,7 @@ module Haml
         if options[:html_style_attributes]
           "(#{attrs.join(' ')})"
         else
-          "{#{attrs.join(', ')}}"
+          "{ #{attrs.join(', ')} }"
         end
       end
 
