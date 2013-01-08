@@ -301,6 +301,8 @@ module Haml
             output << "= succeed #{self.next.content.slice!(/\A[^\s]+/).dump} do\n"
             tabs += 1
             output << tabulate(tabs)
+            #empty the text node since it was inserted into the block
+            self.next.content = ""
           end
         end
 
