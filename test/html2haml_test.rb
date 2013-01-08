@@ -81,7 +81,7 @@ HTML
   end
 
   def test_self_closing_tag
-    assert_equal("%foo/", render("<foo />"))
+    assert_equal("%img/", render("<img />"))
   end
 
   def test_inline_text
