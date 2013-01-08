@@ -154,6 +154,7 @@ module Haml
 
     TEXT_REGEXP = /^(\s*).*$/
 
+
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::Document
@@ -327,7 +328,7 @@ module Haml
         end
 
         output << ">" if nuke_outer_whitespace
-        output << "/" if blank? && !etag
+        output << "/" if to_xhtml.end_with?("/>")
 
         if children && children.size == 1
           child = children.first
