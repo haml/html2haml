@@ -94,7 +94,7 @@ module Html2haml
         end
 
         opts.on_tail("-v", "--version", "Print version") do
-          puts("Haml #{::Haml.version[:string]}")
+          puts("html2haml #{::Html2haml::VERSION}")
           exit
         end
       end
