@@ -153,9 +153,9 @@ HTML
   def test_script_tag_with_cdata
     assert_equal(<<HAML.rstrip, render(<<HTML))
 :javascript
-  function foo() {
-    return "&amp;";
-  }
+    function foo() {
+      return "&amp;";
+    }
 HAML
 <script type="text/javascript">
   <![CDATA[

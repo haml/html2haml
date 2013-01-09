@@ -189,6 +189,11 @@ module Haml
           erb_to_interpolation(self.content, options), tabs + 1)
         "#{tabulate(tabs)}:cdata\n#{content}"
       end
+
+      # removes the start and stop markers for cdata
+      def content_without_cdata_tokens
+        content.gsub("<![CDATA[\n","").gsub("]]>\n", "")
+      end
     end
 
     # @see Hpricot
@@ -378,7 +383,7 @@ module Haml
       def to_haml_filter(filter, tabs, options)
         content =
           if children.first.cdata?
-            children.first.content
+            children.first.content_without_cdata_tokens
           else
             CGI.unescapeHTML(self.inner_text)
           end
