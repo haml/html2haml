@@ -144,6 +144,21 @@ HTML
 HAML
 <script type="text/javascript">
     function foo() {
+        return "12" & "13";
+    }
+</script>
+HTML
+  end
+
+  def test_script_tag_with_html_escaped_javascript
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+:javascript
+  function foo() {
+      return "12" & "13";
+  }
+HAML
+<script type="text/javascript">
+    function foo() {
         return "12" &amp; "13";
     }
 </script>
