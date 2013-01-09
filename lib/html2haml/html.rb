@@ -196,7 +196,9 @@ module Haml
 
       # removes the start and stop markers for cdata
       def content_without_cdata_tokens
-        content.gsub("<![CDATA[\n","").gsub("]]>\n", "")
+        content.
+          gsub(/^\s*<!\[CDATA\[\n/,"").
+          gsub(/^\s*]]>\n/, "")
       end
     end
 
