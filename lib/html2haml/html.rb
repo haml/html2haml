@@ -198,7 +198,7 @@ module Haml
       def content_without_cdata_tokens
         content.
           gsub(/^\s*<!\[CDATA\[\n/,"").
-          gsub(/^\s*]]>\n/, "")
+          gsub(/^\s*\]\]>\n/, "")
       end
     end
 
