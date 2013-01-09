@@ -59,9 +59,9 @@ module Haml
       # @param src [String] The source buffer
       # @param code [String] The Ruby statement to add to the buffer
       def add_stmt(src, code)
-        src << '</haml:block>' if block_closer?(code) || mid_block?(code)
-        src << '<haml:silent>' << h(code) << '</haml:silent>' unless code.strip == "end"
-        src << '<haml:block>' if block_opener?(code) || mid_block?(code)
+        src << '</block>' if block_closer?(code) || mid_block?(code)
+        src << '<silent>' << h(code) << '</silent>' unless code.strip == "end"
+        src << '<block>' if block_opener?(code) || mid_block?(code)
       end
 
       # Concatenates a Ruby expression that's printed to the document
