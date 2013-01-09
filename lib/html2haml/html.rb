@@ -24,19 +24,19 @@ module Nokogiri
       def to_haml(tabs, options)
         return "" if converted_to_haml || to_s.strip.empty?
         text = uninterp(self.to_s)
-        node = next_element
+        node = next_sibling
         while node.is_a?(::Nokogiri::XML::Element) && node.name == "loud"
           node.converted_to_haml = true
           text << '#{' <<
             CGI.unescapeHTML(node.inner_text).gsub(/\n\s*/, ' ').strip << '}'
 
-          if node.next_element.is_a?(::Nokogiri::XML::Text)
-            node = node.next_element
+          if node.next_sibling.is_a?(::Nokogiri::XML::Text)
+            node = node.next_sibling
             text << uninterp(node.to_s)
             node.converted_to_haml = true
           end
 
-          node = node.next_element
+          node = node.next_sibling
         end
         return parse_text_with_interpolation(text, tabs)
       end
