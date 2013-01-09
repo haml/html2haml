@@ -24,19 +24,19 @@ module Nokogiri
       def to_haml(tabs, options)
         return "" if converted_to_haml || to_s.strip.empty?
         text = uninterp(self.to_s)
-        node = next_element
+        node = next_sibling
         while node.is_a?(::Nokogiri::XML::Element) && node.name == "loud"
           node.converted_to_haml = true
           text << '#{' <<
             CGI.unescapeHTML(node.inner_text).gsub(/\n\s*/, ' ').strip << '}'
 
-          if node.next_element.is_a?(::Nokogiri::XML::Text)
-            node = node.next_element
+          if node.next_sibling.is_a?(::Nokogiri::XML::Text)
+            node = node.next_sibling
             text << uninterp(node.to_s)
             node.converted_to_haml = true
           end
 
-          node = node.next_element
+          node = node.next_sibling
         end
         return parse_text_with_interpolation(text, tabs)
       end
@@ -47,7 +47,7 @@ module Nokogiri
         return text unless options[:erb]
         text = CGI.escapeHTML(uninterp(text))
         %w[<loud> </loud>].each {|str| text.gsub!(CGI.escapeHTML(str), str)}
-        ::Nokogiri::XML(text).children.inject("") do |str, elem|
+        ::Nokogiri::XML.fragment(text).children.inject("") do |str, elem|
           if elem.is_a?(::Nokogiri::XML::Text)
             str + CGI.unescapeHTML(elem.to_s)
           else # <loud> element
@@ -136,8 +136,16 @@ module Haml
           template = ERB.compile(template)
         end
 
-        method = @options[:xhtml] ? Nokogiri.method(:XML) : Nokogiri::HTML.method(:fragment)
-        @template = method.call(template)
+        if template =~ /^\s*<!DOCTYPE/
+          @template = Nokogiri.HTML(template)
+        else
+          @template = Nokogiri::HTML.fragment(template)
+          #in order to support CDATA in HTML (which is invalid) try using the XML parser
+          # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
+          if @template.errors.any? { |e| e.code == 68 }
+            @template = method = Nokogiri::XML.fragment(template)
+          end
+        end
       end
     end
 
@@ -149,6 +157,7 @@ module Haml
     alias_method :to_haml, :render
 
     TEXT_REGEXP = /^(\s*).*$/
+
 
     # @see Hpricot
     # @private
@@ -183,6 +192,13 @@ module Haml
         content = parse_text_with_interpolation(
           erb_to_interpolation(self.content, options), tabs + 1)
         "#{tabulate(tabs)}:cdata\n#{content}"
+      end
+
+      # removes the start and stop markers for cdata
+      def content_without_cdata_tokens
+        content.
+          gsub(/^\s*<!\[CDATA\[\n/,"").
+          gsub(/^\s*\]\]>\n/, "")
       end
     end
 
@@ -297,6 +313,8 @@ module Haml
             output << "= succeed #{self.next.content.slice!(/\A[^\s]+/).dump} do\n"
             tabs += 1
             output << tabulate(tabs)
+            #empty the text node since it was inserted into the block
+            self.next.content = ""
           end
         end
 
@@ -323,7 +341,7 @@ module Haml
         end
 
         output << ">" if nuke_outer_whitespace
-        output << "/" if blank? && !etag
+        output << "/" if to_xhtml.end_with?("/>")
 
         if children && children.size == 1
           child = children.first
@@ -370,8 +388,8 @@ module Haml
 
       def to_haml_filter(filter, tabs, options)
         content =
-          if children.first.is_a?(::Nokogiri::XML::CDATA)
-            children.first.content
+          if children.first.cdata?
+            children.first.content_without_cdata_tokens
           else
             CGI.unescapeHTML(self.inner_text)
           end

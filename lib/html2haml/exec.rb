@@ -94,7 +94,7 @@ module Html2haml
         end
 
         opts.on_tail("-v", "--version", "Print version") do
-          puts("Haml #{::Haml.version[:string]}")
+          puts("html2haml #{::Html2haml::VERSION}")
           exit
         end
       end
@@ -216,7 +216,7 @@ END
           @options[:no_erb] = true
         end
 
-        opts.on('-x', '--xhtml', 'Parse the input using the more strict XHTML parser.') do
+        opts.on('-x', '--xhtml', 'Deprecated; Always use strict HTML parsing.') do
           @module_opts[:xhtml] = true
         end
 

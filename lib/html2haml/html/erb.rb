@@ -59,9 +59,9 @@ module Haml
       # @param src [String] The source buffer
       # @param code [String] The Ruby statement to add to the buffer
       def add_stmt(src, code)
-        src << '</haml:block>' if block_closer?(code) || mid_block?(code)
-        src << '<haml:silent>' << h(code) << '</haml:silent>' unless code.strip == "end"
-        src << '<haml:block>' if block_opener?(code) || mid_block?(code)
+        src << '</block>' if block_closer?(code) || mid_block?(code)
+        src << '<silent>' << h(code) << '</silent>' unless code.strip == "end"
+        src << '<block>' if block_opener?(code) || mid_block?(code)
       end
 
       # Concatenates a Ruby expression that's printed to the document
@@ -103,6 +103,15 @@ module Haml
         false
       end
 
+      # Returns whether the code has any content
+      # This is used to test whether lines have been removed by erubis, such as comments
+      #
+      # @param code [String] Ruby code to check
+      # @return [Boolean]
+      def has_code?(code)
+        code != "\n"
+      end
+
       # Checks if a string of Ruby code opens a block.
       # This could either be something like `foo do |a|`
       # or a keyword that requires a matching `end`
@@ -111,6 +120,7 @@ module Haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def block_opener?(code)
+        return unless has_code?(code)
         valid_ruby?(code + "\nend") ||
           valid_ruby?(code + "\nwhen foo\nend")
       end
@@ -121,6 +131,7 @@ module Haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def block_closer?(code)
+        return unless has_code?(code)
         valid_ruby?("begin\n" + code)
       end
 
@@ -131,6 +142,7 @@ module Haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def mid_block?(code)
+        return unless has_code?(code)
         return if valid_ruby?(code)
         valid_ruby?("if foo\n#{code}\nend") || # else, elsif
           valid_ruby?("begin\n#{code}\nend") || # rescue, ensure
