@@ -1,4 +1,4 @@
-require "html2haml/version"
+require File.expand_path("../html2haml/version", __FILE__)
 require "haml/util"
 require "haml/parser"
 require "haml/error"
