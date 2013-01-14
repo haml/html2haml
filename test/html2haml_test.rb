@@ -290,6 +290,12 @@ HAML
 HTML
   end
 
+  def test_haml_tags_should_be_on_new_line_after_tag_with_blank_content
+    xml  = "<weight> </weight>\n<pages>102</pages>"
+    haml = "%weight\n%pages 102"
+    assert_equal haml, render(xml)
+  end
+
   # Encodings
 
   unless RUBY_VERSION < "1.9"
