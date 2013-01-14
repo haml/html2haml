@@ -15,11 +15,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Html2haml::VERSION
 
-  gem.add_dependency 'hpricot'
+  gem.add_dependency 'hpricot', '~> 0.8.6'
+  gem.add_dependency 'erubis', '~> 2.7.0'
+  gem.add_dependency 'ruby_parser', '~> 3.1.1'
   gem.add_dependency 'haml', '>= 3.2.0.beta.1'
-  gem.add_development_dependency 'erubis'
-  gem.add_development_dependency 'ruby_parser'
-  gem.add_development_dependency 'simplecov'
+  gem.add_development_dependency 'simplecov', '~> 0.7.1'
+  gem.add_development_dependency 'minitest', '~> 4.4.0'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'minitest'
 end
