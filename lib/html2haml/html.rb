@@ -371,6 +371,9 @@ module Haml
           content.gsub!(/^#{original_indent}/, tabulate(tabs + 1))
         end
 
+        content.rstrip!
+        content << "\n"
+
         "#{tabulate(tabs)}:#{filter}\n#{content}"
       end
 
