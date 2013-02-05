@@ -237,6 +237,26 @@ HAML
 HTML
   end
 
+  def test_style_to_css_filter_with_following_content
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+%head
+  :css
+    foo {
+        bar: baz;
+    }
+%body Hello
+HAML
+<head>
+  <style type="text/css">
+      foo {
+          bar: baz;
+      }
+  </style>
+</head>
+<body>Hello</body>
+HTML
+  end
+
   def test_inline_conditional_comment
     assert_equal(<<HAML.rstrip, render(<<HTML))
 /[if foo] bar baz
