@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'cgi'
 require 'hpricot'
 require 'html2haml/html/erb'
