@@ -257,6 +257,21 @@ HAML
 HTML
   end
 
+  def test_filter_with_inconsistent_indentation
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+:css
+  foo {
+      badly: indented;
+  }
+HAML
+<style type="text/css">
+  foo {
+    badly: indented;
+}
+</style>
+HTML
+  end
+
   def test_inline_conditional_comment
     assert_equal(<<HAML.rstrip, render(<<HTML))
 /[if foo] bar baz
