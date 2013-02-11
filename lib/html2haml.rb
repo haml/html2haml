@@ -1,5 +1,5 @@
 require "rubygems"
-gem "haml", "~> 3.2.0.rc.3"
+gem "haml", ">= 3.2"
 require File.expand_path("../html2haml/version", __FILE__)
 require "haml/util"
 require "haml/parser"
