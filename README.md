@@ -1,7 +1,6 @@
 # Html2haml
 
-Converts HTML to Haml. This is in the process of being extracted from the Haml 
-gem.
+Converts HTML to Haml.
 
 ## Installation
 
@@ -15,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install html2haml --pre
+    $ gem install html2haml
 
 ## Usage
 
