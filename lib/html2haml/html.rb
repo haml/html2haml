@@ -369,7 +369,15 @@ module Haml
         original_indent = content[/\A(\s*)/, 1]
         if content.split("\n").all? {|l| l.strip.empty? || l =~ /^#{original_indent}/}
           content.gsub!(/^#{original_indent}/, tabulate(tabs + 1))
+        else
+          # Indentation is inconsistent. Strip whitespace from start and indent all
+          # to ensure valid Haml.
+          content.lstrip!
+          content.gsub!(/^/, tabulate(tabs + 1))
         end
+
+        content.rstrip!
+        content << "\n"
 
         "#{tabulate(tabs)}:#{filter}\n#{content}"
       end
