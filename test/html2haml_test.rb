@@ -47,9 +47,9 @@ class Html2HamlTest < MiniTest::Unit::TestCase
 
   def test_should_have_ruby_19_hash_style_attributes
     assert_equal('%input{name: "login", type: "text"}/',
-      render('<input type="text" name="login" />', :ruby19_hash_style_attributes => true))
+      render('<input type="text" name="login" />', :ruby19_style_attributes => true))
     assert_equal('%meta{content: "text/html", "http-equiv" => "Content-Type"}/',
-      render('<meta http-equiv="Content-Type" content="text/html" />', :ruby19_hash_style_attributes => true))
+      render('<meta http-equiv="Content-Type" content="text/html" />', :ruby19_style_attributes => true))
   end
 
   def test_class_with_dot_and_hash

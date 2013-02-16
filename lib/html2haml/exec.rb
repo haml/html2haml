@@ -224,7 +224,7 @@ END
           @module_opts[:html_style_attributes] = true
         end
 
-        opts.on("--ruby19-hash", "Use Ruby 1.9 hash style attributes instead of Ruby 1.8 hash style when possible.") do
+        opts.on("--ruby19-hashes", "Use Ruby 1.9-style attributes when possible.") do
           @module_opts[:ruby19_hash_style_attributes] = true
         end
 
