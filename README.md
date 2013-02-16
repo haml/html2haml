@@ -31,6 +31,7 @@ See `html2haml --help`:
             --no-rhtml                   Deprecated; same as --no-erb.
         -x, --xhtml                      Parse the input using the more strict XHTML parser.
             --html-attributes            Use HTML style attributes instead of Ruby hash style.
+            --ruby19-hash                Use Ruby 1.9 hash style attributes instead of Ruby 1.8 hash style when possible.
         -E ex[:in]                       Specify the default external and internal character encodings.
         -s, --stdin                      Read input from standard input instead of an input file
             --trace                      Show a full traceback on error
