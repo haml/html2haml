@@ -136,14 +136,21 @@ module Haml
         end
 
         if template =~ /^\s*<!DOCTYPE|<html/i
-          @template = Nokogiri.HTML(template)
-        else
-          @template = Nokogiri::HTML.fragment(template)
-          #in order to support CDATA in HTML (which is invalid) try using the XML parser
-          # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
-          if @template.errors.any? { |e| e.code == 68 }
-            @template = Nokogiri::XML.fragment(template)
-          end
+          return @template = Nokogiri.HTML(template)
+        end
+
+        @template = Nokogiri::HTML.fragment(template)
+
+        #detect missplaced head or body tag
+        #XML_HTML_STRUCURE_ERROR : 800
+        if @template.errors.any? { |e| e.code == 800 }
+          return @template = Nokogiri.HTML(template).at('/html').children
+        end
+
+        #in order to support CDATA in HTML (which is invalid) try using the XML parser
+        # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
+        if @template.errors.any? { |e| e.code == 68 }
+          return @template = Nokogiri::XML.fragment(template)
         end
       end
     end
@@ -171,6 +178,12 @@ module Haml
       # @see Haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         (children || []).inject('') {|s, c| s << c.to_haml(0, options)}
+      end
+    end
+
+    class ::Nokogiri::XML::NodeSet
+      def to_haml(tabs, options)
+        self.inject('') {|s, c| s << c.to_haml(tabs, options)}
       end
     end
 
