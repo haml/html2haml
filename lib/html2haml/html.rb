@@ -388,9 +388,9 @@ module Haml
       def to_haml_filter(filter, tabs, options)
         content =
           if children.first.cdata?
-            children.first.content_without_cdata_tokens
+            decode_entities(children.first.content_without_cdata_tokens)
           else
-            CGI.unescapeHTML(self.inner_text)
+            decode_entites(self.inner_text)
           end
 
         content = erb_to_interpolation(content, options)
@@ -409,6 +409,17 @@ module Haml
         content << "\n"
 
         "#{tabulate(tabs)}:#{filter}\n#{content}"
+      end
+
+      # TODO: this method is utterly awful, find a better way to decode HTML entities.
+      def decode_entities(str)
+        str.gsub(/&[\S]+;/) do |entity|
+          begin
+            [Nokogiri::HTML::NamedCharacters[entity[1..-2]]].pack("C")
+          rescue TypeError
+            entity
+          end
+        end
       end
 
       def static_attribute?(name, options)
