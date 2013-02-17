@@ -383,4 +383,25 @@ HTML
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 HTML
   end
+
+  def test_html_document_without_doctype
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+!!!
+%html
+  %head
+    %title Hello
+  %body
+    %p Hello
+HAML
+<html>
+<head>
+  <title>Hello</title>
+</head>
+<body>
+  <p>Hello</p>
+</body>
+</html>
+HTML
+  end
+
 end

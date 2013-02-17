@@ -135,7 +135,7 @@ module Haml
           template = ERB.compile(template)
         end
 
-        if template =~ /^\s*<!DOCTYPE/i
+        if template =~ /^\s*<!DOCTYPE|<html/i
           @template = Nokogiri.HTML(template)
         else
           @template = Nokogiri::HTML.fragment(template)
