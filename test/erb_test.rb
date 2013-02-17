@@ -468,7 +468,7 @@ ERB
 
   def test_should_wrap_in_silent
     assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
-<silent> some_variable_or_function \n</silent>
+<haml_silent> some_variable_or_function \n</haml_silent>
 HTML
 <% some_variable_or_function %>
 ERB
@@ -477,7 +477,7 @@ ERB
   #comment content is removed by erubis
   def test_should_wrap_process_comments_as_empty_lines
     assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
-<silent>\n</silent>
+<haml_silent>\n</haml_silent>
 HTML
 <%# some_variable_or_function %>
 ERB

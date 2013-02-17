@@ -24,7 +24,7 @@ module Nokogiri
         return "" if converted_to_haml || to_s.strip.empty?
         text = uninterp(self.to_s)
         node = next_sibling
-        while node.is_a?(::Nokogiri::XML::Element) && node.name == "loud"
+        while node.is_a?(::Nokogiri::XML::Element) && node.name == "haml_loud"
           node.converted_to_haml = true
           text << '#{' <<
             CGI.unescapeHTML(node.inner_text).gsub(/\n\s*/, ' ').strip << '}'
@@ -45,11 +45,11 @@ module Nokogiri
       def erb_to_interpolation(text, options)
         return text unless options[:erb]
         text = CGI.escapeHTML(uninterp(text))
-        %w[<loud> </loud>].each {|str| text.gsub!(CGI.escapeHTML(str), str)}
+        %w[<haml_loud> </haml_loud>].each {|str| text.gsub!(CGI.escapeHTML(str), str)}
         ::Nokogiri::XML.fragment(text).children.inject("") do |str, elem|
           if elem.is_a?(::Nokogiri::XML::Text)
             str + CGI.unescapeHTML(elem.to_s)
-          else # <loud> element
+          else # <haml_loud> element
             str + '#{' + CGI.unescapeHTML(elem.inner_text.strip) + '}'
           end
         end
@@ -85,7 +85,7 @@ module Nokogiri
 end
 
 # @private
-HAML_TAGS = %w[block loud silent]
+HAML_TAGS = %w[haml_block haml_loud haml_silent]
 #
 # HAML_TAGS.each do |t|
 #   Nokogiri::XML::ElementContent[t] = {}
@@ -182,6 +182,7 @@ module Haml
     end
 
     class ::Nokogiri::XML::NodeSet
+      # @see Haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         self.inject('') {|s, c| s << c.to_haml(tabs, options)}
       end
@@ -282,7 +283,7 @@ module Haml
         output = tabulate(tabs)
         if options[:erb] && HAML_TAGS.include?(name)
           case name
-          when "loud"
+          when "haml_loud"
             lines = CGI.unescapeHTML(inner_text).split("\n").
               map {|s| s.rstrip}.reject {|s| s.strip.empty?}
             lines.first.gsub!(/^[ \t]*/, "= ")
@@ -300,18 +301,18 @@ module Haml
               length = lines.map {|s| s.size}.max + 1
               lines.map! {|s| "%#{-length}s|" % s}
 
-              if next_sibling && next_sibling.is_a?(Nokogiri::XML::Element) && next_sibling.name == "loud" &&
+              if next_sibling && next_sibling.is_a?(Nokogiri::XML::Element) && next_sibling.name == "haml_loud" &&
                   next_sibling.inner_text.split("\n").reject {|s| s.strip.empty?}.size > 1
                 lines << "-#"
               end
             end
             return lines.map {|s| output + s + "\n"}.join
-          when "silent"
+          when "haml_silent"
             return CGI.unescapeHTML(inner_text).split("\n").map do |line|
               next "" if line.strip.empty?
               "#{output}- #{line.strip}\n"
             end.join
-          when "block"
+          when "haml_block"
             return render_children("", tabs, options)
           end
         end
@@ -367,7 +368,7 @@ module Haml
               return output + "\n#{tabulate(tabs + 1)}:preserve\n" +
                 inner_text.gsub(/^/, tabulate(tabs + 2))
             end
-          elsif child.is_a?(::Nokogiri::XML::Element) && child.name == "loud"
+          elsif child.is_a?(::Nokogiri::XML::Element) && child.name == "haml_loud"
             return output + child.to_haml(tabs + 1, options).lstrip
           end
         end
@@ -388,7 +389,7 @@ module Haml
           Hash[attr_hash.map do |name, value|
             next if value == ""
             full_match = nil
-            ruby_value = value.to_s.gsub(%r{<loud>\s*(.+?)\s*</loud>}) do
+            ruby_value = value.to_s.gsub(%r{<haml_loud>\s*(.+?)\s*</haml_loud>}) do
               full_match = $`.empty? && $'.empty?
               CGI.unescapeHTML(full_match ? $1: "\#{#{$1}}")
             end
