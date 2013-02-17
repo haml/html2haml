@@ -142,7 +142,7 @@ module Haml
           #in order to support CDATA in HTML (which is invalid) try using the XML parser
           # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
           if @template.errors.any? { |e| e.code == 68 }
-            @template = method = Nokogiri::XML.fragment(template)
+            @template = Nokogiri::XML.fragment(template)
           end
         end
       end
