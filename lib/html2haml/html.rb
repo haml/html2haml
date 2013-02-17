@@ -472,18 +472,20 @@ module Haml
       # Returns the string representation of a single attribute key value pair
       def haml_attribute_pair(name, value, options)
         value = dynamic_attribute?(name, options) ? dynamic_attributes[name] : value.inspect
+
         if options[:html_style_attributes]
-          "#{name}=#{value}"
-        elsif options[:ruby19_style_attributes]
-          if name.index(/\W/)
-            "#{name.inspect} => #{value}"
-          else
-            "#{name}: #{value}"
-          end
-        else
-          name = name.index(/\W/) ? name.inspect : ":#{name}"
-          "#{name} => #{value}"
+          return "#{name}=#{value}"
         end
+
+        if name.index(/\W/)
+          return "#{name.inspect} => #{value}"
+        end
+
+        if options[:ruby19_style_attributes]
+          return "#{name}: #{value}"
+        end
+
+        ":#{name} => #{value}"
       end
     end
   end
