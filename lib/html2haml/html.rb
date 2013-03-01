@@ -344,14 +344,20 @@ module Haml
       def dynamic_attributes
         @dynamic_attributes ||= begin
           Hash[attr_hash.map do |name, value|
-            next if value.empty?
-            full_match = nil
-            ruby_value = value.gsub(%r{<haml:loud>\s*(.+?)\s*</haml:loud>}) do
-              full_match = $`.empty? && $'.empty?
-              CGI.unescapeHTML(full_match ? $1: "\#{#{$1}}")
+            if value.empty?
+              [nil, nil]
+            else
+              full_match = nil
+              ruby_value = value.gsub(%r{<haml:loud>\s*(.+?)\s*</haml:loud>}) do
+                full_match = $`.empty? && $'.empty?
+                CGI.unescapeHTML(full_match ? $1: "\#{#{$1}}")
+              end
+              if ruby_value == value
+                [nil, nil]
+              else
+                [name, full_match ? ruby_value : %("#{ruby_value}")]
+              end
             end
-            next if ruby_value == value
-            [name, full_match ? ruby_value : %("#{ruby_value}")]
           end]
         end
       end
