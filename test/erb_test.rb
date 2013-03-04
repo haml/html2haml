@@ -10,6 +10,12 @@ class ErbTest < MiniTest::Unit::TestCase
 
   def test_inline_erb
     assert_equal("%p= foo", render_erb("<p><%= foo %></p>"))
+    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
+%p= foo
+HAML
+<p><%= foo %>
+</p>
+HTML
   end
 
   def test_non_inline_erb
@@ -27,13 +33,6 @@ HTML
 HAML
 <p>
   <%= foo %></p>
-HTML
-    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
-%p
-  = foo
-HAML
-<p><%= foo %>
-</p>
 HTML
   end
 
