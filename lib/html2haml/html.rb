@@ -404,7 +404,7 @@ module Haml
           if children.first.cdata?
             decode_entities(children.first.content_without_cdata_tokens)
           else
-            decode_entites(self.inner_text)
+            decode_entities(self.inner_text)
           end
 
         content = erb_to_interpolation(content, options)
