@@ -13,13 +13,13 @@ module Haml
     # to figure out whether a given chunk of Ruby code starts a block or not.
     #
     # The ERB tags are converted to HTML tags in the following way.
-    # `<% ... %>` is converted into `<haml:silent> ... </haml:silent>`.
-    # `<%= ... %>` is converted into `<haml:loud> ... </haml:loud>`.
+    # `<% ... %>` is converted into `<haml_silent> ... </haml_silent>`.
+    # `<%= ... %>` is converted into `<haml_loud> ... </haml_loud>`.
     # Finally, if either of these opens a Ruby block,
-    # `<haml:block> ... </haml:block>` will wrap the entire contents of the block -
+    # `<haml_block> ... </haml_block>` will wrap the entire contents of the block -
     # that is, everything that should be indented beneath the previous silent or loud tag.
     class ERB < Erubis::Basic::Engine
-      # Compiles an ERB template into a HTML document containing `haml:` tags.
+      # Compiles an ERB template into a HTML document containing `haml_*` tags.
       #
       # @param template [String] The ERB template
       # @return [String] The output document
@@ -48,8 +48,8 @@ module Haml
       end
 
       # Concatenates a silent Ruby statement onto the source buffer.
-      # This uses the `<haml:silent>` tag,
-      # and may close and/or open a Ruby block with the `<haml:block>` tag.
+      # This uses the `<haml_silent>` tag,
+      # and may close and/or open a Ruby block with the `<haml_block>` tag.
       #
       # In particular, a block is closed if this statement is some form of `end`,
       # opened if it's a block opener like `do`, `if`, or `begin`,
@@ -59,9 +59,9 @@ module Haml
       # @param src [String] The source buffer
       # @param code [String] The Ruby statement to add to the buffer
       def add_stmt(src, code)
-        src << '</haml:block>' if block_closer?(code) || mid_block?(code)
-        src << '<haml:silent>' << h(code) << '</haml:silent>' unless code.strip == "end"
-        src << '<haml:block>' if block_opener?(code) || mid_block?(code)
+        src << '</haml_block>' if block_closer?(code) || mid_block?(code)
+        src << '<haml_silent>' << h(code) << '</haml_silent>' unless code.strip == "end"
+        src << '<haml_block>' if block_opener?(code) || mid_block?(code)
       end
 
       # Concatenates a Ruby expression that's printed to the document
@@ -73,8 +73,8 @@ module Haml
       # @param src [String] The source buffer
       # @param code [String] The Ruby expression to add to the buffer
       def add_expr_literal(src, code)
-        src << '<haml:loud>' << h(code) << '</haml:loud>'
-        src << '<haml:block>' if block_opener?(code)
+        src << '<haml_loud>' << h(code) << '</haml_loud>'
+        src << '<haml_block>' if block_opener?(code)
       end
 
       # `html2haml` doesn't support debugging expressions.

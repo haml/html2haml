@@ -10,6 +10,12 @@ class ErbTest < MiniTest::Unit::TestCase
 
   def test_inline_erb
     assert_equal("%p= foo", render_erb("<p><%= foo %></p>"))
+    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
+%p= foo
+HAML
+<p><%= foo %>
+</p>
+HTML
   end
 
   def test_non_inline_erb
@@ -27,13 +33,6 @@ HTML
 HAML
 <p>
   <%= foo %></p>
-HTML
-    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
-%p
-  = foo
-HAML
-<p><%= foo %>
-</p>
 HTML
   end
 
@@ -468,7 +467,7 @@ ERB
 
   def test_should_wrap_in_silent
     assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
-<haml:silent> some_variable_or_function \n</haml:silent>
+<haml_silent> some_variable_or_function \n</haml_silent>
 HTML
 <% some_variable_or_function %>
 ERB
@@ -477,7 +476,7 @@ ERB
   #comment content is removed by erubis
   def test_should_wrap_process_comments_as_empty_lines
     assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
-<haml:silent>\n</haml:silent>
+<haml_silent>\n</haml_silent>
 HTML
 <%# some_variable_or_function %>
 ERB

@@ -216,7 +216,7 @@ END
           @options[:no_erb] = true
         end
 
-        opts.on('-x', '--xhtml', 'Parse the input using the more strict XHTML parser.') do
+        opts.on('-x', '--xhtml', 'Deprecated; Always use strict HTML parsing.') do
           @module_opts[:xhtml] = true
         end
 

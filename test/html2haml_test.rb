@@ -88,7 +88,7 @@ HTML
   end
 
   def test_self_closing_tag
-    assert_equal("%foo/", render("<foo />"))
+    assert_equal("%img/", render("<img />"))
   end
 
   def test_inline_text
@@ -143,6 +143,21 @@ HTML
   end
 
   def test_script_tag
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+:javascript
+  function foo() {
+      return "12" & "13";
+  }
+HAML
+<script type="text/javascript">
+    function foo() {
+        return "12" & "13";
+    }
+</script>
+HTML
+  end
+
+  def test_script_tag_with_html_escaped_javascript
     assert_equal(<<HAML.rstrip, render(<<HTML))
 :javascript
   function foo() {
@@ -368,4 +383,25 @@ HTML
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 HTML
   end
+
+  def test_html_document_without_doctype
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+!!!
+%html
+  %head
+    %title Hello
+  %body
+    %p Hello
+HAML
+<html>
+<head>
+  <title>Hello</title>
+</head>
+<body>
+  <p>Hello</p>
+</body>
+</html>
+HTML
+  end
+
 end
