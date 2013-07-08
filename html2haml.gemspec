@@ -2,8 +2,8 @@
 require File.expand_path('../lib/html2haml/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Norman Clarke"]
-  gem.email         = ["norman@njclarke.com"]
+  gem.authors       = ["Norman Clarke", "Stefan Natchev"]
+  gem.email         = ["norman@njclarke.com", "stefan.natchev@gmail.com"]
   gem.description   = %q{Converts HTML into Haml}
   gem.summary       = %q{Converts HTML into Haml}
   gem.homepage      = "http://haml.info"
@@ -14,6 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "html2haml"
   gem.require_paths = ["lib"]
   gem.version       = Html2haml::VERSION
+
+  gem.required_ruby_version = '>= 1.9.3'
 
   gem.add_dependency 'nokogiri', '~> 1.6.0'
   gem.add_dependency 'erubis', '~> 2.7.0'
