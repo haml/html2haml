@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Html2haml::VERSION
 
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 1.9.2'
 
   gem.add_dependency 'nokogiri', '~> 1.6.0'
   gem.add_dependency 'erubis', '~> 2.7.0'
