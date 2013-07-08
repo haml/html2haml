@@ -1,4 +1,4 @@
-# Html2haml
+# Html2haml [![Build Status](https://travis-ci.org/haml/html2haml.png?branch=master)](https://travis-ci.org/haml/html2haml)
 
 Converts HTML to Haml.
 
