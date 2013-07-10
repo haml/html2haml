@@ -18,6 +18,20 @@ Or install it yourself as:
 
 ## Usage
 
+### To convert a project from .erb to .haml
+
+If your system has `sed` and `xargs` available and none of your .erb file names have whitespace in them, you
+can convert all your templates like so:
+
+    find . -name \*.erb -print | sed 'p;s/.erb$/.haml/' | xargs -n2 html2haml
+
+If some of your file names have whitespace or you need finer-grained control over the process,
+you can convert your files using `gsed` or multi-line script techniques discussed
+[here](http://stackoverflow.com/questions/17576814/).
+
+
+### Documentation
+
 See `html2haml --help`:
 
     Usage: html2haml [options] [INPUT] [OUTPUT]
