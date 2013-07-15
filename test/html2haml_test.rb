@@ -355,24 +355,22 @@ HTML
 
   # Encodings
 
-  unless RUBY_VERSION < "1.9"
-    def test_encoding_error
-      render("foo\nbar\nb\xFEaz".force_encoding("utf-8"))
-      assert(false, "Expected exception")
-    rescue Haml::Error => e
-      assert_equal(3, e.line)
-      assert_match(/Invalid UTF-8 character/, e.message)
-    end
+  def test_encoding_error
+    render("foo\nbar\nb\xFEaz".force_encoding("utf-8"))
+    assert(false, "Expected exception")
+  rescue Haml::Error => e
+    assert_equal(3, e.line)
+    assert_match(/Invalid UTF-8 character/, e.message)
+  end
 
-    def test_ascii_incompatible_encoding_error
-      template = "foo\nbar\nb_z".encode("utf-16le")
-      template[9] = "\xFE".force_encoding("utf-16le")
-      render(template)
-      assert(false, "Expected exception")
-    rescue Haml::Error => e
-      assert_equal(3, e.line)
-      assert_match(/Invalid UTF-16LE character/, e.message)
-    end
+  def test_ascii_incompatible_encoding_error
+    template = "foo\nbar\nb_z".encode("utf-16le")
+    template[9] = "\xFE".force_encoding("utf-16le")
+    render(template)
+    assert(false, "Expected exception")
+  rescue Haml::Error => e
+    assert_equal(3, e.line)
+    assert_match(/Invalid UTF-16LE character/, e.message)
   end
 
   # Regression Tests
