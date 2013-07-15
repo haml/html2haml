@@ -3,9 +3,12 @@ require 'fileutils'
 require 'rbconfig'
 
 module Html2haml
-  # This module handles the various Haml executables (`haml` and `haml-convert`).
+  # This module handles the Html2haml executable.
   module Exec
-    # An abstract class that encapsulates the executable code for all three executables.
+    # An abstract class that encapsulates the executable code for the Html2haml executable.
+    # It's split into a base class and a subclass for historic reasons: this previously
+    # was used by all the executables in the Haml project, before Html2haml was moved
+    # into its own gem.
     class Generic
       # @param args [Array<String>] The command-line arguments
       def initialize(args)
