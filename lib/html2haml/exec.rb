@@ -225,7 +225,7 @@ END
         end
 
         opts.on("--ruby19-hashes", "Use Ruby 1.9-style attributes when possible.") do
-          @module_opts[:ruby19_hash_style_attributes] = true
+          @module_opts[:ruby19_style_attributes] = true
         end
 
         unless RUBY_VERSION < "1.9"
