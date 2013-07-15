@@ -208,18 +208,6 @@ END
           @options[:no_erb] = true
         end
 
-        opts.on('-r', '--rhtml', 'Deprecated; same as --erb.') do
-          @module_opts[:erb] = true
-        end
-
-        opts.on('--no-rhtml', "Deprecated; same as --no-erb.") do
-          @options[:no_erb] = true
-        end
-
-        opts.on('-x', '--xhtml', 'Deprecated; Always use strict HTML parsing.') do
-          @module_opts[:xhtml] = true
-        end
-
         opts.on("--html-attributes", "Use HTML style attributes instead of Ruby hash style.") do
           @module_opts[:html_style_attributes] = true
         end
