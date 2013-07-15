@@ -1,6 +1,9 @@
-# Html2haml [![Build Status](https://travis-ci.org/haml/html2haml.png?branch=master)](https://travis-ci.org/haml/html2haml)
+# Html2haml
 
-Converts HTML to Haml.
+[![Build Status](https://travis-ci.org/haml/html2haml.png?branch=master)](https://travis-ci.org/haml/html2haml)
+
+Html2haml, not surprisingly, converts HTML to Haml. It works on HTML with
+embedded ERB tags as well as plain old HTML.
 
 ## Installation
 
@@ -18,19 +21,32 @@ Or install it yourself as:
 
 ## Usage
 
+
 ### To convert a project from .erb to .haml
 
-If your system has `sed` and `xargs` available and none of your .erb file names have whitespace in them, you
-can convert all your templates like so:
+If your system has `sed` and `xargs` available and none of your .erb file names
+have whitespace in them, you can convert all your templates like so:
 
     find . -name \*.erb -print | sed 'p;s/.erb$/.haml/' | xargs -n2 html2haml
 
-If some of your file names have whitespace or you need finer-grained control over the process,
-you can convert your files using `gsed` or multi-line script techniques discussed
-[here](http://stackoverflow.com/questions/17576814/).
+If some of your file names have whitespace or you need finer-grained control
+over the process, you can convert your files using `gsed` or multi-line script
+techniques discussed [here](http://stackoverflow.com/questions/17576814/).
 
 
 ### Documentation
+
+#### About version 2.0
+
+Html2haml 2.0 differs from 1.x primarily in that it uses Nokgiri as its HTML
+parser rather than Hpricot. At the current time however, there are some
+problems running Html2haml 2.0 on JRuby due to differences in the way the Java
+version of Nokogiri parses HTML. If you are using JRuby you may wish to run
+HTML2Haml on MRI or use a 1.x version until these problems have been resolved.
+
+#### Options
+
+Here are the options currently available to Html2haml:
 
 See `html2haml --help`:
 
