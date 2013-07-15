@@ -2,10 +2,10 @@ require 'cgi'
 require 'erubis'
 require 'ruby_parser'
 
-module Haml
+module Html2haml
   class HTML
     # A class for converting ERB code into a format that's easier
-    # for the {Haml::HTML} Hpricot-based parser to understand.
+    # for the {Html2haml::HTML} Nokogiri-based parser to understand.
     #
     # Uses [Erubis](http://www.kuwata-lab.com/erubis)'s extensible parsing powers
     # to parse the ERB in a reliable way,
@@ -23,7 +23,7 @@ module Haml
       #
       # @param template [String] The ERB template
       # @return [String] The output document
-      # @see Haml::HTML::ERB
+      # @see Html2haml::HTML::ERB
       def self.compile(template)
         new(template).src
       end

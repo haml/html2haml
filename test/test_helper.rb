@@ -13,7 +13,7 @@ require 'html2haml/html/erb'
 class MiniTest::Unit::TestCase
   protected
   def render(text, options = {})
-    Haml::HTML.new(text, options).render.rstrip
+    Html2haml::HTML.new(text, options).render.rstrip
   end
 
   def render_erb(text)

@@ -459,14 +459,14 @@ ERB
   def test_can_parse_ruby_19_hashes_as_arguments
     erb =  "<%= foobar 'foo', {bar: 'baz'} %>"
     begin
-      Haml::HTML::ERB.new(erb)
+      Html2haml::HTML::ERB.new(erb)
     rescue
       flunk "should not raise an error"
     end
   end
 
   def test_should_wrap_in_silent
-    assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
+    assert_equal(<<HTML.rstrip, Html2haml::HTML::ERB.new(<<ERB).src)
 <haml_silent> some_variable_or_function \n</haml_silent>
 HTML
 <% some_variable_or_function %>
@@ -475,7 +475,7 @@ ERB
 
   #comment content is removed by erubis
   def test_should_wrap_process_comments_as_empty_lines
-    assert_equal(<<HTML.rstrip, Haml::HTML::ERB.new(<<ERB).src)
+    assert_equal(<<HTML.rstrip, Html2haml::HTML::ERB.new(<<ERB).src)
 <haml_silent>\n</haml_silent>
 HTML
 <%# some_variable_or_function %>

@@ -19,7 +19,7 @@ module Nokogiri
       # Returns the Haml representation of the given node.
       #
       # @param tabs [Fixnum] The indentation level of the resulting Haml.
-      # @option options (see Haml::HTML#initialize)
+      # @option options (see Html2haml::HTML#initialize)
       def to_haml(tabs, options)
         return "" if converted_to_haml || to_s.strip.empty?
         text = uninterp(self.to_s)
@@ -101,7 +101,7 @@ HAML_TAGS = %w[haml_block haml_loud haml_silent]
 #   end
 # end
 
-module Haml
+module Html2haml
   # Converts HTML documents into Haml templates.
   # Depends on [Hpricot](http://github.com/whymirror/hpricot) for HTML parsing.
   # If ERB conversion is being used, also depends on
@@ -110,7 +110,7 @@ module Haml
   #
   # Example usage:
   #
-  #     Haml::HTML.new("<a href='http://google.com'>Blat</a>").render
+  #     HTML.new("<a href='http://google.com'>Blat</a>").render
   #       #=> "%a{:href => 'http://google.com'} Blat"
   class HTML
     # @param template [String, Hpricot::Node] The HTML template to convert
@@ -168,21 +168,21 @@ module Haml
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::Document
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         (children || []).inject('') {|s, c| s << c.to_haml(0, options)}
       end
     end
 
     class ::Nokogiri::XML::DocumentFragment
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         (children || []).inject('') {|s, c| s << c.to_haml(0, options)}
       end
     end
 
     class ::Nokogiri::XML::NodeSet
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         self.inject('') {|s, c| s << c.to_haml(tabs, options)}
       end
@@ -191,7 +191,7 @@ module Haml
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::ProcessingInstruction
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         "#{tabulate(tabs)}!!! XML\n"
       end
@@ -200,7 +200,7 @@ module Haml
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::CDATA
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         content = parse_text_with_interpolation(
           erb_to_interpolation(self.content, options), tabs + 1)
@@ -218,7 +218,7 @@ module Haml
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::DTD
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         attrs = external_id.nil? ? ["", "", ""] :
           external_id.scan(/DTD\s+([^\s]+)\s*([^\s]*)\s*([^\s]*)\s*\/\//)[0]
@@ -248,7 +248,7 @@ module Haml
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::Comment
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         content = self.content
         if content =~ /\A(\[[^\]]+\])>(.*)<!\[endif\]\z/m
@@ -267,7 +267,7 @@ module Haml
     # @see Hpricot
     # @private
     class ::Nokogiri::XML::Element
-      # @see Haml::HTML::Node#to_haml
+      # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         return "" if converted_to_haml
         if name == "script" &&

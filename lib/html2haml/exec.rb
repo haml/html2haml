@@ -238,7 +238,7 @@ END
         @module_opts[:erb] ||= input.respond_to?(:path) && input.path =~ /\.(rhtml|erb)$/
         @module_opts[:erb] &&= @options[:no_erb] != false
 
-        output.write(::Haml::HTML.new(input, @module_opts).render)
+        output.write(HTML.new(input, @module_opts).render)
       rescue ::Haml::Error => e
         raise "#{e.is_a?(::Haml::SyntaxError) ? "Syntax error" : "Error"} on line " +
           "#{get_line e}: #{e.message}"
