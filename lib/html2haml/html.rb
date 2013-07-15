@@ -103,7 +103,7 @@ HAML_TAGS = %w[haml_block haml_loud haml_silent]
 
 module Html2haml
   # Converts HTML documents into Haml templates.
-  # Depends on [Hpricot](http://github.com/whymirror/hpricot) for HTML parsing.
+  # Depends on [Nokogiri](http://nokogiri.org/) for HTML parsing.
   # If ERB conversion is being used, also depends on
   # [Erubis](http://www.kuwata-lab.com/erubis) to parse the ERB
   # and [ruby_parser](http://parsetree.rubyforge.org/) to parse the Ruby code.
@@ -113,7 +113,7 @@ module Html2haml
   #     HTML.new("<a href='http://google.com'>Blat</a>").render
   #       #=> "%a{:href => 'http://google.com'} Blat"
   class HTML
-    # @param template [String, Hpricot::Node] The HTML template to convert
+    # @param template [String, Nokogiri::Node] The HTML template to convert
     # @option options :erb [Boolean] (false) Whether or not to parse
     #   ERB's `<%= %>` and `<% %>` into Haml's `=` and `-`
     # @option options :xhtml [Boolean] (false) Whether or not to parse
@@ -165,7 +165,7 @@ module Html2haml
     TEXT_REGEXP = /^(\s*).*$/
 
 
-    # @see Hpricot
+    # @see Nokogiri
     # @private
     class ::Nokogiri::XML::Document
       # @see Html2haml::HTML::Node#to_haml
@@ -188,7 +188,7 @@ module Html2haml
       end
     end
 
-    # @see Hpricot
+    # @see Nokogiri
     # @private
     class ::Nokogiri::XML::ProcessingInstruction
       # @see Html2haml::HTML::Node#to_haml
@@ -197,7 +197,7 @@ module Html2haml
       end
     end
 
-    # @see Hpricot
+    # @see Nokogiri
     # @private
     class ::Nokogiri::XML::CDATA
       # @see Html2haml::HTML::Node#to_haml
@@ -215,7 +215,7 @@ module Html2haml
       end
     end
 
-    # @see Hpricot
+    # @see Nokogiri
     # @private
     class ::Nokogiri::XML::DTD
       # @see Html2haml::HTML::Node#to_haml
@@ -245,7 +245,7 @@ module Html2haml
       end
     end
 
-    # @see Hpricot
+    # @see Nokogiri
     # @private
     class ::Nokogiri::XML::Comment
       # @see Html2haml::HTML::Node#to_haml
@@ -264,7 +264,7 @@ module Html2haml
       end
     end
 
-    # @see Hpricot
+    # @see Nokogiri
     # @private
     class ::Nokogiri::XML::Element
       # @see Html2haml::HTML::Node#to_haml
