@@ -1,14 +1,24 @@
 # HTML2Haml Changelog
 
-## 1.1.0
+## 2.0.0
 
-* Switch to using Nokogiri for XML parsing - [Stefan Natchev](https://github.com/snatchev), [Norman Clarke](https://github.com/norman)
-  NOTE: This version drops support of JRuby due to behaviour in Nokogiri-jruby.
-* Add Ruby 2.0 support - [Yasuharu Ozaki](https://github.com/yasuoza)
-* Add option to use Ruby 1.9-style attributes when possible
+* Switch to Nokogiri for XML parsing.
+  (thanks to [Stefan Natchev](https://github.com/snatchev) and [Norman
+  Clarke](https://github.com/norman))
+
+* Add Ruby 2.0 support.
+  (thanks to [Yasuharu Ozaki](https://github.com/yasuoza))
+
+* Add option to use Ruby 1.9-style attributes when possible.
   (thanks to [Yoshinori Kawasaki](https://github.com/luvtechno) and
-  [Alexander Egorov](https://github.com/qatsi)).
-* Update dependency versions
+  [Alexander Egorov](https://github.com/qatsi))
+
+* Updated dependency versions.
+
+* Removed some deprecated configuration flags.
+
+* Move the internal HTML class from the Haml namespace into the Html2haml
+  namespace.
 
 ## 1.0.1
 
