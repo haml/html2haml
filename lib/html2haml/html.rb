@@ -393,7 +393,26 @@ module Html2haml
               full_match = nil
               ruby_value = value.to_s.gsub(%r{<haml_loud>\s*(.+?)\s*</haml_loud>}) do
                 full_match = $`.empty? && $'.empty?
-                CGI.unescapeHTML(full_match ? $1: "\#{#{$1}}")
+                content = $1
+                no_spaces = (content =~ /\s/).nil?
+                result = if full_match
+                  if no_spaces
+                    # situation like attr="<%= blabla %>"
+                    content
+                  else
+                    if content =~ %r{\A\"([^\"]|(\"\")|(\\\")|(\#\{.+\}))*\"\z}
+                      # just a string, maybe with interpolation
+                      content
+                    else
+                      # situation like attr="<%= 'active' if some_var %>"
+                      "\"\#{#{content}}\""
+                    end
+                  end
+                else
+                  # we need to intrapolate because of we are in the middle of text (attr = "bla bla <%= bla %> bla" )
+                  "\#{#{content}}" 
+                end
+                CGI.unescapeHTML(result)
               end
               if ruby_value == value
                 [nil, nil]
