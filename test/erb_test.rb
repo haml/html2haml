@@ -482,4 +482,10 @@ HTML
 ERB
   end
 
+  def test_conditional_structure_in_argument
+    assert_equal('%span{:class => "#{"active" if condition}"}',
+                 render_erb('<span class="<%= "active" if condition %>"></span>')
+                )
+  end
+
 end
