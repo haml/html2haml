@@ -488,4 +488,9 @@ ERB
                 )
   end
 
+  def test_method_call_without_brackets_in_argument
+    assert_equal('%span{:class => "#{call_me maybe}"}',
+                 render_erb('<span class="<%= call_me maybe %>"></span>')
+                )
+  end
 end
