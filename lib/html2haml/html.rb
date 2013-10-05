@@ -327,8 +327,11 @@ module Html2haml
             output << "= succeed #{self.next.content.slice!(/\A[^\s]+/).dump} do\n"
             tabs += 1
             output << tabulate(tabs)
+
+            tmp = self.next.content
+            tmp.slice!(/\A[^\s]+\s*/)
             #empty the text node since it was inserted into the block
-            self.next.content = ""
+            self.next.content = tmp
           end
         end
 
