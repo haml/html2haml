@@ -402,4 +402,8 @@ HAML
 HTML
   end
 
+  def test_with_deprecated_xml_char
+    assert_equal('%div{:attr => "a & b"}', render('<div attr="a & b"></div>'))
+  end
+
 end
