@@ -270,6 +270,8 @@ module Html2haml
     class ::Nokogiri::XML::Element
       # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
+        @html_style_attributes = options[:html_style_attributes]
+
         return "" if converted_to_haml
         if name == "script" &&
             (attr_hash['type'].nil? || attr_hash['type'].to_s == "text/javascript") &&
@@ -402,7 +404,12 @@ module Html2haml
                 result = if full_match
                   if no_spaces
                     # situation like attr="<%= blabla %>"
-                    content
+                    if @html_style_attributes and not (content =~ %r{\A@?[A-Za-z_0-9]+\z})
+                      # situation like attr="<%= blabla.bla %>
+                      "\"\#{#{content}}\""
+                    else  
+                      content
+                    end
                   else
                     if content =~ %r{\A\"([^\"]|(\"\")|(\\\")|(\#\{.+\}))*\"\z}
                       # just a string, maybe with interpolation
