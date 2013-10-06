@@ -504,4 +504,8 @@ HAML
 </form>
 HTML
   end
+
+  def test_specific_behavoir_with_new_attribute_style
+    assert_equal('%p(xx="#{@inst.meth}") hi!', render_erb('<p xx="<%=@inst.meth%>">hi!</p>', true))
+  end
 end
