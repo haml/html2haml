@@ -279,6 +279,19 @@ HAML
 HTML
   end
 
+  def test_style_to_css_filter_with_no_content
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+:css
+HAML
+<style type="text/css"> </style>
+HTML
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+:css
+HAML
+<style type="text/css"></style>
+HTML
+  end
+
   def test_filter_with_inconsistent_indentation
     assert_equal(<<HAML.rstrip, render(<<HTML))
 :css
