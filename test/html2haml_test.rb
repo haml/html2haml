@@ -402,4 +402,18 @@ HAML
 HTML
   end
 
+  def test_with_deprecated_xml_char
+    assert_equal('%div{:attr => "a & b"}', render('<div attr="a & b"></div>'))
+  end
+
+  def test_succeed_with_br_inside_tag
+    assert_equal(<<HAML.rstrip, render('<h5>Your Credit Card will be charged <br>$1.00 for your next month</h5>'))
+%h5
+  Your Credit Card will be charged
+  = succeed "$1.00" do
+    %br/
+  for your next month
+HAML
+  end
+
 end

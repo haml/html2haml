@@ -493,4 +493,19 @@ ERB
                  render_erb('<span class="<%= call_me maybe %>"></span>')
                 )
   end
+
+  def test_complex_issue_with_deprecated_xml_char
+    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
+%form{:method => "POST", :x => "\#{dd} dd"}
+  %div{"ng-show" => "a && b"}
+HAML
+<form x="<%= dd %> dd" method="POST">
+  <div ng-show="a && b"/>
+</form>
+HTML
+  end
+
+  def test_specific_behavoir_with_new_attribute_style
+    assert_equal('%p(xx="#{@inst.meth}") hi!', render_erb('<p xx="<%=@inst.meth%>">hi!</p>', true))
+  end
 end

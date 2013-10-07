@@ -16,7 +16,7 @@ class MiniTest::Unit::TestCase
     Html2haml::HTML.new(text, options).render.rstrip
   end
 
-  def render_erb(text)
-    render(text, :erb => true)
+  def render_erb(text, html_style_attributes = false)
+    render(text, :erb => true, :html_style_attributes => html_style_attributes)
   end
 end

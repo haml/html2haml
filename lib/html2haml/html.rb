@@ -149,7 +149,8 @@ module Html2haml
 
         #in order to support CDATA in HTML (which is invalid) try using the XML parser
         # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
-        if @template.errors.any? { |e| e.code == 68 }
+        # and pattern <![CDATA
+        if @template.errors.any?{ |e| e.code == 68 } and template =~ /\<\!\[CDATA/
           return @template = Nokogiri::XML.fragment(template)
         end
       end
@@ -269,6 +270,8 @@ module Html2haml
     class ::Nokogiri::XML::Element
       # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
+        @html_style_attributes = options[:html_style_attributes]
+
         return "" if converted_to_haml
         if name == "script" &&
             (attr_hash['type'].nil? || attr_hash['type'].to_s == "text/javascript") &&
@@ -326,8 +329,11 @@ module Html2haml
             output << "= succeed #{self.next.content.slice!(/\A[^\s]+/).dump} do\n"
             tabs += 1
             output << tabulate(tabs)
+
+            tmp = self.next.content
+            tmp.slice!(/\A[^\s]+\s*/)
             #empty the text node since it was inserted into the block
-            self.next.content = ""
+            self.next.content = tmp
           end
         end
 
@@ -398,7 +404,12 @@ module Html2haml
                 result = if full_match
                   if no_spaces
                     # situation like attr="<%= blabla %>"
-                    content
+                    if @html_style_attributes and not (content =~ %r{\A@?[A-Za-z_0-9]+\z})
+                      # situation like attr="<%= blabla.bla %>
+                      "\"\#{#{content}}\""
+                    else  
+                      content
+                    end
                   else
                     if content =~ %r{\A\"([^\"]|(\"\")|(\\\")|(\#\{.+\}))*\"\z}
                       # just a string, maybe with interpolation
