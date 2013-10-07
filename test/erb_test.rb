@@ -482,4 +482,15 @@ HTML
 ERB
   end
 
+  def test_conditional_structure_in_argument
+    assert_equal('%span{:class => "#{"active" if condition}"}',
+                 render_erb('<span class="<%= "active" if condition %>"></span>')
+                )
+  end
+
+  def test_method_call_without_brackets_in_argument
+    assert_equal('%span{:class => "#{call_me maybe}"}',
+                 render_erb('<span class="<%= call_me maybe %>"></span>')
+                )
+  end
 end
