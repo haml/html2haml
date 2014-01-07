@@ -27,7 +27,7 @@ Or install it yourself as:
 If your system has `sed` and `xargs` available and none of your .erb file names
 have whitespace in them, you can convert all your templates like so:
 
-    find . -name \*.erb -print | sed 'p;s/.erb$/.haml/' | xargs -n2 html2haml
+    find . -name \*.erb -print | sed 'p;s/.erb$/.haml/' | xargs -n2 -P 5 html2haml
 
 If some of your file names have whitespace or you need finer-grained control
 over the process, you can convert your files using `gsed` or multi-line script
