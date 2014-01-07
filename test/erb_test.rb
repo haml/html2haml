@@ -493,4 +493,16 @@ ERB
                  render_erb('<span class="<%= call_me maybe %>"></span>')
                 )
   end
+
+  def test_multiline_erb_comment
+    assert_equal(<<HAML.rstrip, render_erb(<<ERB))
+-# comment
+%p hi
+HAML
+<%
+# comment
+-%>
+<p>hi</p>
+ERB
+  end
 end
