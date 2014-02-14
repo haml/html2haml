@@ -286,7 +286,12 @@ module Html2haml
           when "haml_loud"
             lines = CGI.unescapeHTML(inner_text).split("\n").
               map {|s| s.rstrip}.reject {|s| s.strip.empty?}
-            lines.first.gsub!(/^[ \t]*/, "= ")
+
+            if attribute("raw")
+              lines.first.gsub!(/^[ \t]*/, "!= ")
+            else
+              lines.first.gsub!(/^[ \t]*/, "= ")
+            end
 
             if lines.size > 1 # Multiline script block
               # Normalize the indentation so that the last line is the base

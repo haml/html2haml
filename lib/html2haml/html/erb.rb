@@ -15,6 +15,7 @@ module Html2haml
     # The ERB tags are converted to HTML tags in the following way.
     # `<% ... %>` is converted into `<haml_silent> ... </haml_silent>`.
     # `<%= ... %>` is converted into `<haml_loud> ... </haml_loud>`.
+    # `<%== ... %>` is converted into `<haml_loud raw=raw> ... </haml_loud>`.
     # Finally, if either of these opens a Ruby block,
     # `<haml_block> ... </haml_block>` will wrap the entire contents of the block -
     # that is, everything that should be indented beneath the previous silent or loud tag.
@@ -26,11 +27,6 @@ module Html2haml
       # @see Html2haml::HTML::ERB
       def self.compile(template)
         new(template).src
-      end
-
-      # `html2haml` doesn't support HTML-escaped expressions.
-      def escaped_expr(code)
-        raise Haml::Error.new("html2haml doesn't support escaped expressions.")
       end
 
       # The ERB-to-Hamlized-HTML conversion has no preamble.
@@ -75,6 +71,10 @@ module Html2haml
       def add_expr_literal(src, code)
         src << '<haml_loud>' << h(code) << '</haml_loud>'
         src << '<haml_block>' if block_opener?(code)
+      end
+
+      def add_expr_escaped(src, code)
+        src << "<haml_loud raw=raw>" << h(code) << "</haml_loud>"
       end
 
       # `html2haml` doesn't support debugging expressions.
