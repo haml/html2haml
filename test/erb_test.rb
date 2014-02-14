@@ -505,4 +505,14 @@ HAML
 <p>hi</p>
 ERB
   end
+
+  ##
+  # <%== %> is supposed to be equal to <%= raw %>
+  def test_erb_with_double_equals
+    assert_equal(<<HAML.rstrip, render_erb(<<ERB))
+!= link_to "https://github.com/haml/html2haml/issues/44"
+HAML
+<%== link_to "https://github.com/haml/html2haml/issues/44" %>
+ERB
+  end
 end
