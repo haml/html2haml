@@ -117,6 +117,16 @@ HTML
       render_erb('<div class="<%= "foo" %>">Bang!</div>')
   end
 
+  def test_erb_in_html_escaped_attribute
+    assert_equal '%div{:class => :foo} Bang!',
+      render_erb('<div class="<%= :foo %>">Bang!</div>')
+  end
+
+  def test_empty_erb_in_attribute
+    assert_equal '%div{:class => ""}',
+      render_erb('<div class="<%= %>"></div>')
+  end
+
   def test_erb_in_attribute_to_multiple_interpolations
     assert_equal('%div{:class => "#{12} + #{13}"} Math is super',
       render_erb('<div class="<%= 12 %> + <%= 13 %>">Math is super</div>'))
@@ -483,15 +493,19 @@ ERB
   end
 
   def test_conditional_structure_in_argument
-    assert_equal('%span{:class => "#{"active" if condition}"}',
-                 render_erb('<span class="<%= "active" if condition %>"></span>')
-                )
+    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
+%span{:class => "\#{"active" if condition}"}
+HAML
+<span class="<%= "active" if condition %>"></span>
+HTML
   end
 
   def test_method_call_without_brackets_in_argument
-    assert_equal('%span{:class => "#{call_me maybe}"}',
-                 render_erb('<span class="<%= call_me maybe %>"></span>')
-                )
+    assert_equal(<<HAML.rstrip, render_erb(<<HTML))
+%span{:class => "\#{call_me maybe}"}
+HAML
+<span class="<%= call_me maybe %>"></span>
+HTML
   end
 
   def test_multiline_erb_comment

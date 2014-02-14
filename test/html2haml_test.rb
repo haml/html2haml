@@ -52,6 +52,10 @@ class Html2HamlTest < MiniTest::Unit::TestCase
       render('<meta http-equiv="Content-Type" content="text/html" />', :ruby19_style_attributes => true))
   end
 
+  def test_should_have_attributes_without_values
+    assert_equal('%input{:disabled => "disabled"}/', render('<input disabled>'))
+  end
+
   def test_class_with_dot_and_hash
     assert_equal('%div{:class => "foo.bar"}', render("<div class='foo.bar'></div>"))
     assert_equal('%div{:class => "foo#bar"}', render("<div class='foo#bar'></div>"))

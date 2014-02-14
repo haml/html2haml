@@ -385,44 +385,49 @@ module Html2haml
       end
 
       def dynamic_attributes
-        @dynamic_attributes ||= begin
-          Hash[attr_hash.map do |name, value|
-            if value == ""
-              [nil, nil]
-            else
-              full_match = nil
-              ruby_value = value.to_s.gsub(%r{<haml_loud>\s*(.+?)\s*</haml_loud>}) do
-                full_match = $`.empty? && $'.empty?
-                content = $1
-                no_spaces = (content =~ /\s/).nil?
-                result = if full_match
-                  if no_spaces
-                    # situation like attr="<%= blabla %>"
-                    content
-                  else
-                    if content =~ %r{\A\"([^\"]|(\"\")|(\\\")|(\#\{.+\}))*\"\z}
-                      # just a string, maybe with interpolation
-                      content
-                    else
-                      # situation like attr="<%= 'active' if some_var %>"
-                      "\"\#{#{content}}\""
-                    end
-                  end
-                else
-                  # we need to intrapolate because of we are in the middle of text (attr = "bla bla <%= bla %> bla" )
-                  "\#{#{content}}" 
-                end
-                CGI.unescapeHTML(result)
-              end
-              if ruby_value == value
-                [nil, nil]
-              else
-                [name.to_s, full_match ? ruby_value : %("#{ruby_value}")]
-              end
+        #reject any attrs without <haml>
+        return @dynamic_attributes if @dynamic_attributes
+
+        @dynamic_attributes = attr_hash.select {|name, value| value =~ %r{<haml.*</haml} }
+        @dynamic_attributes.each do |name, value|
+          fragment = Nokogiri::XML.fragment(value)
+
+          # unwrap interpolation if we can:
+          if fragment.children.size == 1 && fragment.child.name == 'haml_loud'
+            if attribute_value_can_be_bare_ruby?(fragment.text)
+              value.replace(fragment.text.strip)
+              next
             end
-          end]
+          end
+
+          # turn erb into interpolations
+          fragment.css('haml_loud').each do |el|
+            inner_text = el.text.strip
+            next if inner_text == ""
+            el.replace('#{' + el.text.strip + '}')
+          end
+
+          # put the resulting text in a string
+          value.replace('"' + fragment.text.strip + '"')
         end
       end
+
+      def attribute_value_can_be_bare_ruby?(value)
+        begin
+          ruby = RubyParser.new.parse(value)
+        rescue Racc::ParseError, RubyParser::SyntaxError
+          return false
+        end
+
+        return false if ruby.nil?
+        return true if ruby.sexp_type == :str   #regular string
+        return true if ruby.sexp_type == :dstr  #string with interpolation
+        return true if ruby.sexp_type == :lit   #symbol
+        return true if ruby.sexp_type == :call && ruby.mass == 1 #local var or method with no params
+
+        false
+      end
+
 
       def to_haml_filter(filter, tabs, options)
         content =
