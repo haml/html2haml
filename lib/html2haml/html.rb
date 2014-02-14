@@ -390,7 +390,7 @@ module Html2haml
 
         @dynamic_attributes = attr_hash.select {|name, value| value =~ %r{<haml.*</haml} }
         @dynamic_attributes.each do |name, value|
-          fragment = Nokogiri::XML.fragment(value)
+          fragment = Nokogiri::XML.fragment(CGI.unescapeHTML(value))
 
           # unwrap interpolation if we can:
           if fragment.children.size == 1 && fragment.child.name == 'haml_loud'
