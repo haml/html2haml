@@ -117,7 +117,7 @@ HTML
       render_erb('<div class="<%= "foo" %>">Bang!</div>')
   end
 
-  def test_erb_in_html_escaped_attribute
+  def test_erb_in_html_escaped_attribute_with_symbol
     assert_equal '%div{:class => :foo} Bang!',
       render_erb('<div class="<%= :foo %>">Bang!</div>')
   end
