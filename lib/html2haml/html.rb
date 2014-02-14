@@ -404,7 +404,7 @@ module Html2haml
           fragment.css('haml_loud').each do |el|
             inner_text = el.text.strip
             next if inner_text == ""
-            el.replace('#{' + el.text.strip + '}')
+            el.replace('#{' + inner_text + '}')
           end
 
           # put the resulting text in a string
