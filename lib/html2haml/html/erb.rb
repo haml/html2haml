@@ -109,7 +109,9 @@ module Html2haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def has_code?(code)
-        code != "\n"
+        return false if code == "\n"
+        return false if valid_ruby?(code) == nil
+        true
       end
 
       # Checks if a string of Ruby code opens a block.

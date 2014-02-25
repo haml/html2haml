@@ -510,7 +510,7 @@ HTML
 
   def test_multiline_erb_comment
     assert_equal(<<HAML.rstrip, render_erb(<<ERB))
--# comment
+- # comment
 %p hi
 HAML
 <%
