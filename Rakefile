@@ -8,7 +8,11 @@ CLEAN.replace %w(pkg doc coverage .yardoc)
 
 Rake::TestTask.new do |t|
   t.libs << 'lib' << 'test'
-  t.test_files = Dir["test/**/*_test.rb"]
+  if RUBY_PLATFORM == 'java'
+    t.test_files = FileList["test/**/*_test.rb"]
+  else
+    t.test_files = FileList["test/**/*_test.rb"].exclude(/jruby/)
+  end
   t.verbose = true
 end
 

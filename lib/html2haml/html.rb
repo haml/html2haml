@@ -149,7 +149,7 @@ module Html2haml
 
         #in order to support CDATA in HTML (which is invalid) try using the XML parser
         # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
-        if @template.errors.any? { |e| e.code == 68 }
+        if @template.errors.any? { |e| e.code == 68 } || template =~ /CDATA/
           return @template = Nokogiri::XML.fragment(template)
         end
       end
@@ -270,6 +270,7 @@ module Html2haml
       # @see Html2haml::HTML::Node#to_haml
       def to_haml(tabs, options)
         return "" if converted_to_haml
+
         if name == "script" &&
             (attr_hash['type'].nil? || attr_hash['type'].to_s == "text/javascript") &&
             (attr_hash.keys - ['type']).empty?
