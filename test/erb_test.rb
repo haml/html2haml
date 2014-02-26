@@ -529,4 +529,18 @@ HAML
 <%== link_to "https://github.com/haml/html2haml/issues/44" %>
 ERB
   end
+
+  #https://github.com/haml/html2haml/issues/43
+  def test_escaped_ruby_call_when_preceeded_by_text
+    assert_equal(<<HAML.rstrip, render_erb(<<ERB))
+random text
+= form_tag(url: sessions_path) do
+  = submit_tag "cdcd"
+HAML
+random text
+<%= form_tag(url: sessions_path) do %>
+   <%= submit_tag "cdcd" %>
+<% end %>
+ERB
+  end
 end
