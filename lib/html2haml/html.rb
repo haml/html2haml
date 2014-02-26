@@ -426,7 +426,7 @@ module Html2haml
 
       def to_haml_filter(filter, tabs, options)
         content =
-          if children.first.cdata?
+          if children.first && children.first.cdata?
             decode_entities(children.first.content_without_cdata_tokens)
           else
             decode_entities(self.inner_text)
