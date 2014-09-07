@@ -67,6 +67,11 @@ See `html2haml --help`:
         -?, -h, --help                   Show this message
         -v, --version                    Print version
 
+Alternatively, to convert strings on the fly:
+```ruby
+require 'html2haml'
+Haml::HTML.new('<h1>Hello world</h1>', {:erb => nil}).render() # => "%h1 Hello world\n"
+```
 ## License
 
 Copyright (c) 2006-2014 Hampton Catlin, Natalie Weizenbaum and Norman Clarke
