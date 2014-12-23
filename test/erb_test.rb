@@ -208,7 +208,6 @@ ERB
   = foo +          |
     bar.baz.bang + |
     baz            |
-  -#
   = foo.bar do |
       bang     |
     end        |
