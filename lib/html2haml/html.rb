@@ -23,21 +23,14 @@ module Nokogiri
       def to_haml(tabs, options)
         return "" if converted_to_haml || to_s.strip.empty?
         text = uninterp(self.to_s)
-        node = next_sibling
-        while node.is_a?(::Nokogiri::XML::Element) && node.name == "haml_loud"
-          node.converted_to_haml = true
-          text << '#{' <<
-            CGI.unescapeHTML(node.inner_text).gsub(/\n\s*/, ' ').strip << '}'
 
-          if node.next_sibling.is_a?(::Nokogiri::XML::Text)
-            node = node.next_sibling
-            text << uninterp(node.to_s)
-            node.converted_to_haml = true
-          end
-
-          node = node.next_sibling
+        #ending in a newline stops the inline nodes
+        if text.end_with?("\n")
+          parse_text_with_interpolation(text, tabs)
+        else
+          text << process_inline_nodes(next_sibling)
+          parse_text_with_interpolation(text, tabs)
         end
-        return parse_text_with_interpolation(text, tabs)
       end
 
       private
@@ -79,6 +72,24 @@ module Nokogiri
           line.strip!
           "#{tabulate(tabs)}#{'\\' if Haml::Parser::SPECIAL_CHARACTERS.include?(line[0])}#{line}\n"
         end.join
+      end
+
+      def process_inline_nodes(node)
+        text = ""
+        while node.is_a?(::Nokogiri::XML::Element) && node.name == "haml_loud"
+          node.converted_to_haml = true
+          text << '#{' <<
+            CGI.unescapeHTML(node.inner_text).gsub(/\n\s*/, ' ').strip << '}'
+
+          if node.next_sibling.is_a?(::Nokogiri::XML::Text)
+            node = node.next_sibling
+            text << uninterp(node.to_s)
+            node.converted_to_haml = true
+          end
+
+          node = node.next_sibling
+        end
+        text
       end
     end
   end
