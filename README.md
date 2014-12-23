@@ -1,7 +1,7 @@
 # Html2haml
 
-[![Build Status](https://travis-ci.org/haml/html2haml.png?branch=master)](https://travis-ci.org/haml/html2haml)
-[![Code Climate](https://codeclimate.com/github/haml/html2haml.png)](https://codeclimate.com/github/haml/html2haml)
+[![Build Status](https://travis-ci.org/haml/html2haml.svg?branch=master)](https://travis-ci.org/haml/html2haml)
+[![Code Climate](https://codeclimate.com/github/haml/html2haml.svg)](https://codeclimate.com/github/haml/html2haml)
 
 Html2haml, not surprisingly, converts HTML to Haml. It works on HTML with
 embedded ERB tags as well as plain old HTML.
