@@ -146,24 +146,34 @@ module Html2haml
           template = ERB.compile(template)
         end
 
-        if template =~ /^\s*<!DOCTYPE|<html/i
-          return @template = Nokogiri.HTML(template)
-        end
-
-        @template = Nokogiri::HTML.fragment(template)
-
-        #detect missplaced head or body tag
-        #XML_HTML_STRUCURE_ERROR : 800
-        if @template.errors.any? { |e| e.code == 800 }
-          return @template = Nokogiri.HTML(template).at('/html').children
-        end
-
-        #in order to support CDATA in HTML (which is invalid) try using the XML parser
-        # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
-        if @template.errors.any? { |e| e.code == 68 } || template =~ /CDATA/
-          return @template = Nokogiri::XML.fragment(template)
-        end
+        @template = detect_proper_parser(template)
       end
+    end
+
+    def detect_proper_parser(template)
+      if template =~ /^\s*<!DOCTYPE|<html/i
+        return Nokogiri.HTML(template)
+      end
+
+      if template =~ /^\s*<head|<body/i
+        return Nokogiri.HTML(template).at('/html').children
+      end
+
+      parsed = Nokogiri::HTML::DocumentFragment.parse(template)
+
+      #detect missplaced head or body tag
+      #XML_HTML_STRUCURE_ERROR : 800
+      if parsed.errors.any? {|e| e.code == 800 }
+        return Nokogiri.HTML(template).at('/html').children
+      end
+
+      #in order to support CDATA in HTML (which is invalid) try using the XML parser
+      # we can detect this when libxml returns error code XML_ERR_NAME_REQUIRED : 68
+      if parsed.errors.any? {|e| e.code == 68 } || template =~ /CDATA/
+        return Nokogiri::XML.fragment(template)
+      end
+
+      parsed
     end
 
     # Processes the document and returns the result as a string
@@ -403,8 +413,6 @@ module Html2haml
 
       def dynamic_attributes
         #reject any attrs without <haml>
-        return @dynamic_attributes if @dynamic_attributes
-
         @dynamic_attributes = attr_hash.select {|name, value| value =~ %r{<haml.*</haml} }
         @dynamic_attributes.each do |name, value|
           fragment = Nokogiri::XML.fragment(CGI.unescapeHTML(value))
