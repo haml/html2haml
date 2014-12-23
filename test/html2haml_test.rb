@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class Html2HamlTest < MiniTest::Unit::TestCase
