@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-require File.dirname(__FILE__) + '/../lib/html2haml'
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'html2haml'
 require 'html2haml/exec'
 
 opts = Html2haml::Exec::HTML2Haml.new(ARGV)
