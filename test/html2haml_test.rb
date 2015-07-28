@@ -77,7 +77,7 @@ class Html2HamlTest < MiniTest::Unit::TestCase
   end
 
   def test_attribute_grouping
-    assert_equal('%p{:foo => {:bar => "baz"}}', render('<p foo-bar="baz"', :nest => true))
+    assert_equal('%p{:foo => {:bar => "baz"}}', render('<p foo-bar="baz">', :nest => true))
     assert_equal('%p{:bar => "2", :baz => "3", :foo => "1"}', render('<p foo="1" bar="2" baz="3">', :nest => true))
   end
 
