@@ -8,3 +8,4 @@ Gemfile.lock
 .rvmrc
 .rbx
 tmp
+/.idea
