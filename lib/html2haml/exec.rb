@@ -211,7 +211,7 @@ END
           @options[:no_erb] = true
         end
 
-        opts.on('-d', '--nest-data-tags', 'Nest hyphenated attributes (Not compatible with --html-attributes)') do
+        opts.on('-d', '--nest-data-tags', 'Nest hyphenated attributes. (Not compatible with -h.)') do
           @module_opts[:nest] = true
         end
 
