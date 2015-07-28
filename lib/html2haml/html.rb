@@ -514,19 +514,21 @@ module Html2haml
       # Returns a string representation of an attributes hash
       # that's prettier than that produced by Hash#inspect
       def haml_attributes(options)
-        attrs = attr_hash.sort.map do |name, value|
-          haml_attribute_pair(name, value.to_s, options)
-        end
-        if options[:html_style_attributes]
-          "(#{attrs.join(' ')})"
+        if options[:nest] && !options[:html_style_attributes]
+          sorted_attr_hash = grouped_haml_attributes(attr_hash.sort)
         else
-          "{#{attrs.join(', ')}}"
+          sorted_attr_hash = attr_hash.sort
         end
+        attrs = sorted_attr_hash.map do |name, value|
+          haml_attribute_pair(name, value, options)
+        end
+        enclose_attributes(attrs, options)
       end
 
       # Returns the string representation of a single attribute key value pair
       def haml_attribute_pair(name, value, options)
-        value = dynamic_attribute?(name, options) ? dynamic_attributes[name] : value.inspect
+
+        value = interpret_value(name, value, options)
 
         if options[:html_style_attributes]
           return "#{name}=#{value}"
@@ -542,6 +544,45 @@ module Html2haml
 
         ":#{name} => #{value}"
       end
+
+      # Wraps attrs or attr groups
+      def enclose_attributes(attrs, options)
+        if options[:html_style_attributes]
+          "(#{attrs.join(' ')})"
+        else
+          "{#{attrs.join(', ')}}"
+        end
+      end
+
+      def interpret_value(name, value, options)
+        if (value.is_a? Hash) && options[:nest]
+          subpairs = value.map do |k, v|
+            haml_attribute_pair(k, v, options)
+          end
+          enclose_attributes(subpairs, options)
+        elsif dynamic_attribute?(name, options)
+          dynamic_attributes[name]
+        else
+          value.inspect
+        end
+      end
+
+      # Groups similarly-prefixed attributes within nested hashes
+      def grouped_haml_attributes(attr_hash)
+        grouped_hash = {}
+        attr_hash.each do |k, v|
+          if k.include? '-'
+            parent = k.split('-').first
+            child = k.split('-')[1..-1].join('-')
+            grouped_hash[parent] = {} unless grouped_hash.key? parent
+            grouped_hash[parent][child] = v
+          else
+            grouped_hash[k] = v
+          end
+        end
+        grouped_hash
+      end
+
     end
   end
 end

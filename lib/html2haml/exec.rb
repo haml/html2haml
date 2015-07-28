@@ -211,11 +211,15 @@ END
           @options[:no_erb] = true
         end
 
-        opts.on("--html-attributes", "Use HTML style attributes instead of Ruby hash style.") do
+        opts.on('-d', '--nest-data-tags', 'Nest hyphenated attributes (Not compatible with --html-attributes)') do
+          @module_opts[:nest] = true
+        end
+
+        opts.on('-h', "--html-attributes", "Use HTML style attributes instead of Ruby hash style.") do
           @module_opts[:html_style_attributes] = true
         end
 
-        opts.on("--ruby19-attributes", "Use Ruby 1.9-style attributes when possible.") do
+        opts.on('-r', "--ruby19-attributes", "Use Ruby 1.9-style attributes when possible.") do
           @module_opts[:ruby19_style_attributes] = true
         end
 
