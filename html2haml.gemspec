@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "html2haml"
   gem.require_paths = ["lib"]
   gem.version       = Html2haml::VERSION
+  gem.license       = 'MIT'
 
   gem.required_ruby_version = '>= 1.9.2'
 
