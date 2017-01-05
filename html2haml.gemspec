@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Converts HTML into Haml}
   gem.summary       = %q{Converts HTML into Haml}
   gem.homepage      = "http://haml.info"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
