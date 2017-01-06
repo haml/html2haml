@@ -18,3 +18,7 @@ branches:
     - master
 
 script: "bundle exec rake test"
+
+matrix:
+  allow_failures:
+    - rvm: rbx-2
