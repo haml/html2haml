@@ -1,6 +1,6 @@
+require "bundler/gem_tasks"
 require "rake/clean"
 require "rake/testtask"
-require "rubygems/package_task"
 
 task :default => :test
 
@@ -22,8 +22,3 @@ end
 
 desc "Run Simplecov"
 task :coverage => [:set_coverage_env, :test]
-
-gemspec = File.expand_path("../html2haml.gemspec", __FILE__)
-if File.exist? gemspec
-  Gem::PackageTask.new(eval(File.read(gemspec))) { |pkg| }
-end
