@@ -2,8 +2,8 @@
 require File.expand_path('../lib/html2haml/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Norman Clarke", "Stefan Natchev"]
-  gem.email         = ["norman@njclarke.com", "stefan.natchev@gmail.com"]
+  gem.authors       = ["Akira Matsuda", "Stefan Natchev"]
+  gem.email         = ["ronnie@dio.jp", "stefan.natchev@gmail.com"]
   gem.description   = %q{Converts HTML into Haml}
   gem.summary       = %q{Converts HTML into Haml}
   gem.homepage      = "http://haml.info"
