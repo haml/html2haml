@@ -57,8 +57,8 @@ See `html2haml --help`:
     Description: Transforms an HTML file into corresponding Haml code.
 
     Options:
-        -e, --erb                        Parse ERb tags.
-            --no-erb                     Don't parse ERb tags.
+        -e, --erb                        Parse ERB tags.
+            --no-erb                     Don't parse ERB tags.
             --html-attributes            Use HTML style attributes instead of Ruby hash style.
             --ruby19-attributes          Use Ruby 1.9-style attributes when possible.
         -E ex[:in]                       Specify the default external and internal character encodings.

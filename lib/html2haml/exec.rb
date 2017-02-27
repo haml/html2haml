@@ -203,11 +203,11 @@ Description: Transforms an HTML file into corresponding Haml code.
 Options:
 END
 
-        opts.on('-e', '--erb', 'Parse ERb tags.') do
+        opts.on('-e', '--erb', 'Parse ERB tags.') do
           @module_opts[:erb] = true
         end
 
-        opts.on('--no-erb', "Don't parse ERb tags.") do
+        opts.on('--no-erb', "Don't parse ERB tags.") do
           @options[:no_erb] = true
         end
 
