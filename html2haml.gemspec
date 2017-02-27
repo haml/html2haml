@@ -23,6 +23,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'ruby_parser', '~> 3.5'
   gem.add_dependency 'haml', '~> 4.0'
   gem.add_development_dependency 'simplecov', '~> 0.7.1'
-  gem.add_development_dependency 'minitest', '~> 4.4.0'
+  gem.add_development_dependency 'minitest', '>= 4.4.0'
   gem.add_development_dependency 'rake'
 end
