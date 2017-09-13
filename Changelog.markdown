@@ -1,5 +1,14 @@
 # HTML2Haml Changelog
 
+## 2.2.0
+
+* Haml 5 support.
+
+## 2.1.0
+
+* Reduce specificity of Haml 4.0 version dependency.
+  (thanks to [Ben Sheldon](https://github.com/bensheldon))
+
 ## 2.0.0
 
 * Switch to Nokogiri for XML parsing.

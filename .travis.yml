@@ -1,10 +1,17 @@
 language: ruby
+sudo: false
+
+before_install: gem update bundler --no-document
+
 rvm:
-  - 2.1.0
+  - 2.4.1
+  - 2.3.4
+  - 2.2.7
+  - 2.1.10
   - 2.0.0
   - 1.9.3
   - rbx-2
-  - jruby-19mode
+  - jruby-9.1.10.0
 
 gemfile:
   - Gemfile
@@ -14,3 +21,7 @@ branches:
     - master
 
 script: "bundle exec rake test"
+
+matrix:
+  allow_failures:
+    - rvm: rbx-2

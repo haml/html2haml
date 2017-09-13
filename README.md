@@ -59,9 +59,9 @@ See `html2haml --help`:
     Options:
         -e, --erb                        Parse ERb tags.
             --no-erb                     Don't parse ERb tags.
-        -d, --nest-data-tags             Nest hyphenated attributes. (Not compatible with -h.)
-        -h, --html-attributes            Use HTML style attributes instead of Ruby hash style.
-        -r, --ruby19-attributes          Use Ruby 1.9-style attributes when possible.
+        -d, --nest-data-tags             Nest hyphenated attributes. (Not compatible with -html attributes.)
+            --html-attributes            Use HTML style attributes instead of Ruby hash style.
+            --ruby19-attributes          Use Ruby 1.9-style attributes when possible.
         -E ex[:in]                       Specify the default external and internal character encodings.
         -s, --stdin                      Read input from standard input instead of an input file
             --trace                      Show a full traceback on error
@@ -71,7 +71,7 @@ See `html2haml --help`:
 
 ## License
 
-Copyright (c) 2006-2014 Hampton Catlin, Natalie Weizenbaum and Norman Clarke
+Copyright (c) 2006-2017 Hampton Catlin, Natalie Weizenbaum and Norman Clarke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

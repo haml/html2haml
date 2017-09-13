@@ -531,7 +531,7 @@ ERB
   end
 
   #https://github.com/haml/html2haml/issues/43
-  def test_escaped_ruby_call_when_preceeded_by_text
+  def test_escaped_ruby_call_when_preceded_by_text
     assert_equal(<<HAML.rstrip, render_erb(<<ERB))
 random text
 = form_tag(url: sessions_path) do
