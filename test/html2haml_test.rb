@@ -365,6 +365,21 @@ HAML
 HTML
   end
 
+  def test_comma_doesnt_nuke_other_content_post_tag
+    assert_equal(<<HAML.rstrip, render(<<HTML))
+#foo
+  Batch
+  = succeed "," do
+    %span Foo
+  and everything else that goes in here.
+HAML
+<div id="foo">
+  Batch
+  <span>Foo</span>, and everything else that goes in here.
+</div>
+HTML
+  end
+
   def test_haml_tags_should_be_on_new_line_after_tag_with_blank_content
     xml  = "<weight> </weight>\n<pages>102</pages>"
     haml = "%weight\n%pages 102"
