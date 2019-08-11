@@ -350,11 +350,12 @@ module Html2haml
                self.previous.content =~ /\A\s*\Z/ && self.previous.previous.nil?)
             nuke_outer_whitespace = true
           else
-            output << "= succeed #{self.next.content.slice!(/\A[^\s]+/).dump} do\n"
+            next_content = self.next.content
+            output << "= succeed #{next_content.slice!(/\A[^\s]+/).dump} do\n"
             tabs += 1
             output << tabulate(tabs)
-            #empty the text node since it was inserted into the block
-            self.next.content = ""
+            # Set the next content to whatever wasn't added to the succeed statement
+            self.next.content = next_content
           end
         end
 
