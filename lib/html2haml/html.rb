@@ -159,6 +159,10 @@ module Html2haml
         return Nokogiri.HTML(template).at('/html').children
       end
 
+      if template =~ /^\s*<\?xml/i
+        return Nokogiri.XML(template)
+      end
+
       parsed = Nokogiri::HTML::DocumentFragment.parse(template)
 
       #detect missplaced head or body tag
