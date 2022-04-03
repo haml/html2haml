@@ -439,7 +439,7 @@ module Html2haml
 
       def attribute_value_can_be_bare_ruby?(value)
         begin
-          ruby = RubyParser.new.parse(value)
+          ruby = RubyParser.for_current_ruby.parse(value)
         rescue Racc::ParseError, RubyParser::SyntaxError
           return false
         end
