@@ -1,6 +1,6 @@
 # Html2haml
 
-[![Build Status](https://travis-ci.org/haml/html2haml.svg?branch=master)](https://travis-ci.org/haml/html2haml)
+[![Build Status](https://github.com/haml/html2haml/actions/workflows/test.yml/badge.svg)](https://github.com/haml/html2haml/actions)
 [![Code Climate](https://codeclimate.com/github/haml/html2haml.svg)](https://codeclimate.com/github/haml/html2haml)
 [![Gem Version](https://badge.fury.io/rb/html2haml.svg)](https://rubygems.org/gems/html2haml)
 
