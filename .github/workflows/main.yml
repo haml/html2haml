@@ -35,4 +35,4 @@ jobs:
 
       - run: |
           bundle exec rake
-        continue-on-error: ${{ matrix.ruby-version == 'ruby-head' }}
+        continue-on-error: ${{ (matrix.ruby-version == 'ruby-head') || (matrix.ruby-version == 'jruby') }}
