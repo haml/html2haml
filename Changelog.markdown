@@ -1,5 +1,11 @@
 # HTML2Haml Changelog
 
+## 2.3.0
+
+* Haml 6+ support.
+
+* Fixed a bug that embedded ruby code was not parsed with the current version of ruby.
+
 ## 2.2.0
 
 * Haml 5 support.
