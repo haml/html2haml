@@ -98,7 +98,7 @@ module Html2haml
       # @param code [String] Ruby code to check
       # @return [Boolean]
       def valid_ruby?(code)
-        RubyParser.new.parse(code)
+        RubyParser.for_current_ruby.parse(code)
       rescue Racc::ParseError, RubyParser::SyntaxError
         false
       end
