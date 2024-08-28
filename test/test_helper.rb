@@ -6,6 +6,7 @@ end
 
 require "bundler/setup"
 require "minitest/autorun"
+require "minitest/unit"
 require "html2haml"
 require 'html2haml/html'
 require 'html2haml/html/erb'
