@@ -10,7 +10,7 @@ require "html2haml"
 require 'html2haml/html'
 require 'html2haml/html/erb'
 
-class MiniTest::Unit::TestCase
+class Minitest::Unit::TestCase
   protected
   def render(text, options = {})
     Html2haml::HTML.new(text, options).render.rstrip
