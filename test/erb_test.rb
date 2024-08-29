@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ErbTest < MiniTest::Unit::TestCase
+class ErbTest < Minitest::Unit::TestCase
   def test_erb
     assert_equal '- foo = bar', render_erb('<% foo = bar %>')
     assert_equal '- foo = bar', render_erb('<% foo = bar -%>')
