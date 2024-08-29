@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 gemspec
 
+if RUBY_VERSION < '2.3'
+  gem 'haml', '6.1.3'
+end
+
 gem 'nokogiri', RUBY_VERSION < '2.1' ? '~> 1.6.0' : '>= 1.7'
 
 if RUBY_VERSION < '2.1'
